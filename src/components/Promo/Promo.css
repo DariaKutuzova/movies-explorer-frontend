@@ -1,0 +1,25 @@
+.promo {
+    background-color: rgba(7, 48, 66, 1);
+    min-height: 560px;
+    width: 100%;
+    position: relative;
+}
+
+.promo__header {
+    font-size: 40px;
+    line-height: 52px;
+    letter-spacing: -0.04em;
+    font-weight: 400;
+    color: #FFFFFF;
+    margin: 0;
+    max-width: 626px;
+    padding: 50px 0 0 70px;
+}
+
+.promo__img {
+    max-width: 722px;
+    position: absolute;
+    right: 70px;
+    bottom: 60px;
+
+}
