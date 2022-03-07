@@ -1,0 +1,60 @@
+.about-project {
+    padding-top: 110px;
+    /*min-height: 608px;*/
+}
+
+.about-project__header {
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 27px;
+    padding-bottom: 23px;
+    border-bottom: 1px solid rgba(218, 218, 218, 1);
+    margin: 0;
+}
+
+.about-project__table {
+    margin: 70px 0 110px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 40px;
+}
+
+.about-project__table-header {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: -0.04em;
+    margin: 0;
+}
+
+.about-project__table-description {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 26px 0 0;
+}
+
+.about-project__weeks {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    text-align: center;
+    font-size: 14px;
+    line-height: 17px;
+    padding-bottom: 110px;
+}
+
+.about-project__weeks-back {
+    background-color: rgba(61, 220, 132, 1);
+    padding: 9px 0;
+    color: rgba(0, 0, 0, 1);
+}
+
+.about-project__weeks-front {
+    background-color: rgba(48, 48, 48, 1);
+    padding: 9px 0;
+}
+
+.about-project__weeks-description {
+    color: rgba(139, 139, 139, 1);
+    margin: 23px 0 0;
+}
