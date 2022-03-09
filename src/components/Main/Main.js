@@ -7,6 +7,9 @@ import AboutProject from '../AboutProject/AboutProject';
 import Techs from '../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
 import Portfolio from '../Portfolio/Portfolio';
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+
 // import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onCardLike, onCardDelete}) {
@@ -16,16 +19,20 @@ function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onCa
 
 
     return (
-        <main className="content">
-            <section className="main app__item">
-                <Promo/>
-                <NavTab/>
-                <AboutProject/>
-                <Techs/>
-                <AboutMe/>
-                <Portfolio/>
-            </section>
-        </main>
+        <div>
+            <Header/>
+            <main className="content">
+                <section className="main app__item">
+                    <Promo/>
+                    <NavTab/>
+                    <AboutProject/>
+                    <Techs/>
+                    <AboutMe/>
+                    <Portfolio/>
+                </section>
+            </main>
+            <Footer/>
+        </div>
     );
 }
 

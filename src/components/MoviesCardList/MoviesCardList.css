@@ -1,0 +1,14 @@
+.movies-cards {
+    min-height: 500px;
+    display: grid;
+    gap: 20px 32px;
+    grid-template-columns: repeat(auto-fit, 270px);
+    justify-content: center;
+    padding-top: 70px;
+    padding-bottom: 30px;
+}
+
+.movies-cards__nomovies {
+    text-align: center;
+
+}

@@ -1,0 +1,128 @@
+.sign__container {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    width: 396px;
+    background-color: transparent;
+    padding: 70px 0 0;
+    margin: 0 auto 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+@media screen and (max-width: 600px) {
+    .popup__container {
+        max-width: 260px;
+        min-height: 322px;
+        padding-left: 22px;
+    }
+}
+
+.sign__form {
+    display: flex;
+    flex-direction: column;
+}
+
+.sign__header {
+    color: rgba(255, 255, 255, 1);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    margin: 40px 0;
+}
+
+.sign__button {
+    width: 396px;
+    min-height: 45px;
+    background-color: rgba(66, 133, 244, 1);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: white;
+    border: 0;
+    border-radius: 3px;
+    padding: 0;
+    margin-top: 69px;
+    cursor: pointer;
+    transition: opacity 0.2s linear;
+}
+
+.sign__button:hover{
+    opacity: 0.6;
+}
+
+.sign__text {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: rgba(139, 139, 139, 1);
+    text-align: center;
+    margin: 16px 0 0;
+    width: 100%;
+}
+
+.sign__link {
+    color: rgba(66, 133, 244, 1);
+    margin-left: 6px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s linear;
+}
+
+.sign__link:hover{
+    opacity: 0.6;
+    text-decoration: underline;
+}
+
+.sign__input {
+    padding: 0 0 10px;
+    border: 0;
+    border-bottom: 1px solid rgba(66, 66, 66, 1);
+    margin-top: 5px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    outline: none;
+    background-color: transparent;
+    color: white;
+}
+
+.sign__input:focus {
+    border-bottom: 1px solid rgba(66, 133, 244, 1);
+}
+
+.sign__label {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    margin-top: 10px;
+    color: rgba(139, 139, 139, 1);
+}
+
+.sign__label:first-child {
+    margin: 0;
+}
+
+.sign__text-error {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 0;
+    color: rgba(238, 52, 101, 1);
+    visibility: hidden;
+    opacity: 0;
+    transition: all .2s ease-in-out;
+    padding: 10px 0 5px;
+}
+
+.sign__text-error_active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.sign__input-error {
+    color: rgba(238, 52, 101, 1);
+}

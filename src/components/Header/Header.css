@@ -1,7 +1,6 @@
 .header {
     display: flex;
     flex-direction: column;
-    background-color: #073042;
 }
 
 .header__basic {
@@ -13,43 +12,23 @@
 
 }
 
-@media screen and (max-width: 910px) {
-    .header__basic {
-        padding-top: 28px;
-        padding-left: 27px;
-        padding-right: 27px;
-        min-height: 56px;
-    }
-}
+.header_landing {
+    background-color: #073042;
 
-@media screen and (max-width: 600px) {
-    .header__basic {
-        padding-top: 0;
-        min-height: 83px;
-    }
 }
 
 .header__logo {
     max-width: 38px;
+    margin-right: 44px;
+    cursor: pointer;
 }
 
-@media screen and (max-width: 350px) {
-    .header__logo {
-        max-width: 38px;
-    }
-}
 
 .header__entry {
     color: #fff;
     text-decoration: none;
     display: flex;
     flex-direction: row;
-}
-
-@media screen and (max-width: 600px) {
-    .header__entry{
-        display: none;
-    }
 }
 
 .header__text {
@@ -63,11 +42,6 @@
 .header__text:hover{
     opacity: 0.6;
     text-decoration: underline;
-}
-@media screen and (max-width: 600px) {
-    .header__text {
-        margin: 40px auto 18px;
-    }
 }
 
 .header__button {
@@ -90,9 +64,60 @@
     opacity: 0.6;
 }
 
-@media screen and (max-width: 600px) {
-    .header__button {
-        margin: 0 auto 40px;
+.header__navigation {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
-    }
+.header__link {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 18px;
+    margin-right: 16px;
+    cursor: pointer;
+    transition: opacity 0.2s linear;
+}
+
+.header__link:last-of-type {
+    font-weight: 400;
+}
+
+.header__link:hover{
+    opacity: 0.6;
+    text-decoration: underline;
+}
+
+.header__account-text {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.header__account-button {
+    margin-left: 13px;
+    height: 30px;
+    width: 30px;
+    border-radius: 6px;
+    background-color: rgba(49, 49, 49, 1);
+    background-image: url("../../images/icon-account.svg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    border: 0;
+    cursor: pointer;
+
+}
+
+.header__account {
+    cursor: pointer;
+    transition: opacity 0.2s linear;
+    display: flex;
+    align-items: center;
+}
+
+.header__account:hover{
+    opacity: 0.6;
+    text-decoration: underline;
 }

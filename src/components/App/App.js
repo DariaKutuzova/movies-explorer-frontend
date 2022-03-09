@@ -13,15 +13,12 @@ import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
 import {Routes, Route, useNavigate} from "react-router-dom";
 
+
 function App() {
-
-
 
   return (
       // <CurrentUserContext.Provider value={currentUser}>
         <div className="app">
-          <Header
-          />
           <Routes>
             <Route path="/signup" element={
               <Register
@@ -44,7 +41,6 @@ function App() {
             <Route path="*" element={
               <NotFound />}/>
           </Routes>
-          <Footer/>
         </div>
       // </CurrentUserContext.Provider>
   )
