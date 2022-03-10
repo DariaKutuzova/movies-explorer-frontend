@@ -65,6 +65,12 @@ function Header({loggedIn, onSingOut, autoEmail}) {
                         <a className="header__account-text">Аккаунт</a>
                         <button className="header__account-button" type="button"/>
                     </div>
+                    <button className="header__navi" type="button" onClick={handleNavi}>
+                            <span
+                                className={`header__navi-line 
+                                ${isActive ? 'header__navi-line_active' : ''}`}>
+                            </span>
+                    </button>
                 </div>
             </header>)}
         </div>

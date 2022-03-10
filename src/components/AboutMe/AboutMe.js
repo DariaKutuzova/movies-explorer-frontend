@@ -6,7 +6,7 @@ function AboutMe() {
 
     return (
         <div className="about-me app__container">
-            <h2 className="about-me__header">Технологии</h2>
+            <h2 className="about-me__header">Студент</h2>
             <div className="about-me__table">
                 <div className="about-me__text">
                     <h3 className="about-me__name">Дарья</h3>

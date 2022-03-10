@@ -1,3 +1,8 @@
+.sign {
+    min-height: 590px;
+
+}
+
 .sign__container {
     background-size: cover;
     background-position: center center;
@@ -6,18 +11,21 @@
     width: 396px;
     background-color: transparent;
     padding: 70px 0 0;
-    margin: 0 auto 80px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
 }
 
-@media screen and (max-width: 600px) {
-    .popup__container {
-        max-width: 260px;
-        min-height: 322px;
-        padding-left: 22px;
+@media screen and (max-width: 900px) {
+    .sign__container {
+        padding: 0;
     }
 }
 
@@ -63,6 +71,7 @@
     text-align: center;
     margin: 16px 0 0;
     width: 100%;
+
 }
 
 .sign__link {

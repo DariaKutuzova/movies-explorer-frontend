@@ -1,4 +1,5 @@
-import film from '../images/film.jpg'
+import film from '../images/film.jpg';
+import film2 from '../images/film2.jpg';
 
 const movies = [
     {"id":1,
@@ -8,7 +9,7 @@ const movies = [
     {"id":2,
         "name":"33 слова о дизайне",
         "duration":"1ч42м",
-        "image": film},
+        "image": film2},
     {"id":3,
         "name":"33 слова о дизайне",
         "duration":"1ч42м",
@@ -16,7 +17,7 @@ const movies = [
     {"id":4,
         "name":"33 слова о дизайне",
         "duration":"1ч42м",
-        "image": film},
+        "image": film2},
     {"id":5,
         "name":"33 слова о дизайне",
         "duration":"1ч42м",
@@ -24,7 +25,7 @@ const movies = [
     {"id":6,
         "name":"33 слова о дизайне",
         "duration":"1ч42м",
-        "image": film},
+        "image": film2},
     {"id":7,
         "name":"33 слова о дизайне",
         "duration":"1ч42м",
@@ -32,7 +33,7 @@ const movies = [
     {"id":8,
         "name":"33 слова о дизайне",
         "duration":"1ч42м",
-        "image": film},
+        "image": film2},
     {"id":9,
         "name":"33 слова о дизайне",
         "duration":"1ч42м",
@@ -40,7 +41,7 @@ const movies = [
     {"id":10,
         "name":"33 слова о дизайне",
         "duration":"1ч42м",
-        "image": film},
+        "image": film2},
     {"id":11,
         "name":"33 слова о дизайне",
         "duration":"1ч42м",

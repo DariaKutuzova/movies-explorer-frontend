@@ -9,6 +9,12 @@
 
 }
 
+@media screen and (max-width: 900px) {
+    .filter-checkbox {
+        padding: 41px 0 40px;
+    }
+}
+
 .filter-checkbox__input{
     font-size: 12px;
     line-height: 18px;

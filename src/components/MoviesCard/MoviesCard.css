@@ -2,11 +2,20 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    max-width: 270px;
-    min-height: 218px;
+    /*min-height: 218px;*/
     position: relative;
     border-radius: 10px;
     background-color: #222222;
+    object-fit: cover;
+    overflow: hidden;
+    box-shadow: 0 16px 24px rgba(0, 0, 0, 0.05);
+
+}
+
+@media screen and (max-width: 900px) {
+    .movies-card {
+        /*max-width: 339px;*/
+    }
 }
 
 .movies-card__image {

@@ -2,10 +2,23 @@
     min-height: 500px;
     display: grid;
     gap: 20px 32px;
-    grid-template-columns: repeat(auto-fit, 270px);
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
     justify-content: center;
     padding-top: 70px;
     padding-bottom: 30px;
+    /*justify-items: center;*/
+}
+
+@media screen and (max-width: 900px) {
+    .movies-cards {
+        gap: 36px 30px;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .movies-cards {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
 }
 
 .movies-cards__nomovies {

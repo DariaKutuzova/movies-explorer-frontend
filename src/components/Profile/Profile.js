@@ -16,24 +16,26 @@ function Profile() {
     return (
         <div>
             <Header/>
-            <div className="profile app__container">
-                <form className="profile__form">
-                    <h1 className="profile__header">Привет, Виталий</h1>
-                    <div className="profile__string">
-                        <label className="profile__label">
-                            Имя
-                        </label>
-                        <input className="profile__input" value="Виталий"/>
-                    </div>
-                    <div className="profile__string">
-                        <label className="profile__label">
-                            E-mail
-                        </label>
-                        <input className="profile__input" value="pochta@yandex.ru"/>
-                    </div>
-                    <button className="profile__change-button" type='submit'>Редактировать</button>
-                </form>
-                <Link className="profile__signout" to="/signin" onClick={handleSignOut}>Выйти из аккаунта</Link>
+            <div className="profile">
+                <div className="profile__container app__container">
+                    <form className="profile__form">
+                        <h1 className="profile__header">Привет, Виталий</h1>
+                        <div className="profile__string">
+                            <label className="profile__label">
+                                Имя
+                            </label>
+                            <input className="profile__input" value="Виталий"/>
+                        </div>
+                        <div className="profile__string">
+                            <label className="profile__label">
+                                E-mail
+                            </label>
+                            <input className="profile__input" value="pochta@yandex.ru"/>
+                        </div>
+                        <button className="profile__change-button" type='submit'>Редактировать</button>
+                    </form>
+                    <Link className="profile__signout" to="/signin" onClick={handleSignOut}>Выйти из аккаунта</Link>
+                </div>
             </div>
         </div>
     );

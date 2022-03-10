@@ -1,8 +1,23 @@
 .profile {
+    min-height: 590px;
+}
+
+.profile__container {
     display: flex;
     flex-direction: column;
     justify-content: center;
 
+}
+
+@media screen and (max-width: 900px) {
+    .profile__container {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+    }
 }
 
 .profile__form {
@@ -14,6 +29,13 @@
 
 }
 
+@media screen and (max-width: 900px) {
+    .profile__form {
+        margin: 0 auto 16px;
+
+    }
+}
+
 .profile__header {
     margin: 0 0 123px;
     text-align: center;
@@ -21,6 +43,12 @@
     font-size: 24px;
     line-height: 29px;
 
+}
+
+@media screen and (max-width: 900px) {
+    .profile__header {
+        margin: 41px 0 96px;
+    }
 }
 
 .profile__string {
@@ -89,4 +117,5 @@
     opacity: 0.6;
     text-decoration: underline;
 }
+
 
