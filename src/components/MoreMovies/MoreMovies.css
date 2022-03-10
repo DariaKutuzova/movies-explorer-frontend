@@ -23,6 +23,12 @@
     opacity: 0.6;
 }
 
+@media screen and (max-width: 500px) {
+    .more-movies__button {
+        width: 240px;
+    }
+}
+
 .more-movies__without-button {
     height: 140px;
 }

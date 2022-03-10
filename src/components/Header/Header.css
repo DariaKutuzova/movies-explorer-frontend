@@ -3,6 +3,12 @@
     flex-direction: column;
 }
 
+@media screen and (max-width: 500px) {
+    .header {
+        padding: 0 14px;
+    }
+}
+
 .header__basic {
     display: flex;
     flex-direction: row;
@@ -44,6 +50,12 @@
     text-decoration: underline;
 }
 
+@media screen and (max-width: 500px) {
+    .header__text {
+        font-size: 10px;
+    }
+}
+
 .header__button {
     color: rgba(0, 0, 0, 1);
     background-color: #3DDC84;
@@ -62,6 +74,15 @@
 
 .header__button:hover{
     opacity: 0.6;
+}
+
+@media screen and (max-width: 500px) {
+    .header__button {
+        width: 54px;
+        min-height: 26px;
+        font-size: 10px;
+        margin-left: 14px;
+    }
 }
 
 .header__navigation {

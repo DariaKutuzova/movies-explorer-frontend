@@ -21,6 +21,13 @@
     }
 }
 
+@media screen and (max-width: 500px) {
+    .movies-cards {
+        padding-top: 40px;
+        gap: 20px;
+    }
+}
+
 .movies-cards__nomovies {
     text-align: center;
 

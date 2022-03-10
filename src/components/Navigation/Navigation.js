@@ -1,9 +1,10 @@
 import '../Header/Header.css';
 import './Navigation.css';
-import {useLocation, Link, useNavigate} from "react-router-dom";
-import Header from "../Header/Header";
+import {Link, useNavigate} from "react-router-dom";
 
 function Navigation() {
+
+    const navigate = useNavigate();
 
     function handleAccount() {
         navigate('/profile');

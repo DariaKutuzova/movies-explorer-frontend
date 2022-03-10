@@ -42,7 +42,7 @@ function Header({loggedIn, onSingOut, autoEmail}) {
     return (
         <div style={{margin: 0}}>
             {address.pathname === '/' &&
-            (<header className="header app__item app__container header_landing">
+            (<header className="app__item header app__container header_landing">
                 <div className="header__basic">
                     <img src={logo} alt="Лого шапки" className="header__logo" onClick={handleLanding}/>
                     <nav className="header__entry">
@@ -54,7 +54,7 @@ function Header({loggedIn, onSingOut, autoEmail}) {
             {(address.pathname === '/movies' ||
                 address.pathname === '/saved-movies' ||
                 address.pathname === '/profile') &&
-            (<header className="header app__item app__container">
+            (<header className="app__item header app__container">
                 <div className="header__basic">
                     <nav className="header__navigation">
                         <img src={logo} alt="Лого шапки" className="header__logo" onClick={handleLanding}/>
