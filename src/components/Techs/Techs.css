@@ -12,6 +12,7 @@
 @media screen and (max-width: 500px) {
     .techs {
         padding-top: 70px;
+        background-color: rgba(32, 32, 32, 1);
     }
 }
 

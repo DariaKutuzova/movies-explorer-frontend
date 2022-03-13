@@ -1,6 +1,5 @@
 import '../App/App.css'
 import './Portfolio.css'
-import arrow from '../../images/arrow.svg'
 
 function Portfolio() {
 
@@ -8,9 +7,9 @@ function Portfolio() {
         <div className="portfolio app__container">
             <h3 className="portfolio__header">Портфолио</h3>
             <div className="portfolio__links">
-                <a className="portfolio__link">Статичный сайт</a>
-                <a className="portfolio__link">Адаптивный сайт</a>
-                <a className="portfolio__link">Одностраничное приложение</a>
+                <a className="portfolio__link" href="https://dariakutuzova.github.io/how-to-learn/">Статичный сайт</a>
+                <a className="portfolio__link" href="https://dariakutuzova.github.io/russian-travel/">Адаптивный сайт</a>
+                <a className="portfolio__link" href="https://kutuzova.mesto.students.nomoredomains.work">Одностраничное приложение</a>
             </div>
         </div>
     );

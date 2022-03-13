@@ -8,7 +8,7 @@ function SearchForm() {
         <div className="app__container">
         <form action="" method="get" className="search-form app__container">
             <div className="search-form__container">
-            <input className="search-form__input" name="search" placeholder="Фильм" type="search"/>
+            <input className="search-form__input" name="search" placeholder="Фильм" type="search" required/>
             <button className="search-form__button" type="submit"/>
             </div>
             <FilterCheckbox/>
