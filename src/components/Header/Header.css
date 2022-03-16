@@ -1,0 +1,248 @@
+.header {
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 500px) {
+    .header {
+        padding: 0 14px;
+    }
+}
+
+.header__basic {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 74px;
+
+}
+
+.header_landing {
+    background-color: #073042;
+
+}
+
+.header__logo {
+    max-width: 38px;
+    margin-right: 44px;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 500px) {
+    .header__logo {
+        margin-right: 0;
+    }
+}
+
+
+.header__entry {
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+}
+
+.header__text {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    margin: auto 0;
+    cursor: pointer;
+    transition: opacity 0.2s linear;
+}
+.header__text:hover{
+    opacity: 0.6;
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 500px) {
+    .header__text {
+        font-size: 10px;
+    }
+}
+
+.header__button {
+    color: rgba(0, 0, 0, 1);
+    background-color: #3DDC84;
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: opacity 0.2s linear;
+    margin-left: 30px;
+    opacity: 1;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    width: 76px;
+    min-height: 32px;
+}
+
+.header__button:hover{
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 500px) {
+    .header__button {
+        width: 54px;
+        min-height: 26px;
+        font-size: 10px;
+        margin-left: 14px;
+    }
+}
+
+.header__navigation {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.header__link {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 18px;
+    margin-right: 16px;
+    cursor: pointer;
+    transition: opacity 0.2s linear;
+}
+
+@media screen and (max-width: 801px) {
+    .header__link {
+        display: none;
+    }
+}
+
+.header__link:last-of-type {
+    font-weight: 400;
+}
+
+.header__link:hover{
+    opacity: 0.6;
+    text-decoration: underline;
+}
+
+.header__account-text {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.header__account-button {
+    margin-left: 13px;
+    height: 30px;
+    width: 30px;
+    border-radius: 6px;
+    background-color: rgba(49, 49, 49, 1);
+    background-image: url("../../images/icon-account.svg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    border: 0;
+    cursor: pointer;
+
+}
+
+.header__account {
+    cursor: pointer;
+    transition: opacity 0.2s linear;
+    display: flex;
+    align-items: center;
+}
+
+.header__account:hover{
+    opacity: 0.6;
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 801px) {
+    .header__account {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .header__navi {
+        display: block;
+        overflow: hidden;
+        position: relative;
+        width: 28px;
+        min-height: 28px;
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        cursor: pointer;
+        border: 0;
+        font-size: 0;
+        transition: opacity 0.2s linear;
+        z-index: 10;
+    }
+
+    .header__navi:hover {
+        opacity: 0.6;
+    }
+
+    @media screen and (max-width: 800px) {
+        .header__navi {
+            opacity: 1;
+        }
+    }
+}
+
+@media screen and (min-width: 801px) {
+    .header__navi {
+        display: none;
+    }
+}
+
+.header__navi-line {
+    position: absolute;
+    display: block;
+    left: 0;
+    top: 50%;
+    right: 0;
+    height: 3px;
+    background: #FFFFFF;
+    transition: background 0s 0.3s;
+}
+
+.header__navi-line::before, .header__navi-line::after {
+    position: absolute;
+    display: block;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #FFFFFF;
+    content: "";
+    transition-duration: 0.3s, 0.3s;
+    transition-delay: 0.3s, 0s;
+
+}
+
+.header__navi-line::before {
+    top: -8px;
+    transition-property: top, transform;
+}
+
+.header__navi-line::after {
+    bottom: -8px;
+    transition-property: bottom, transform;
+}
+.header__navi-line_active {
+    background: none;
+}
+
+.header__navi-line_active::before, .header__navi-line_active::after {
+    transition-delay: 0s, 0.3s;
+}
+
+.header__navi-line_active::before {
+    top: 0;
+    transform: rotate(-45deg);
+}
+
+.header__navi-line_active::after {
+    bottom: 0;
+    transform: rotate(45deg);
+}
+

@@ -1,0 +1,116 @@
+.movies-card {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    /*min-height: 218px;*/
+    position: relative;
+    border-radius: 10px;
+    background-color: #222222;
+    object-fit: cover;
+    overflow: hidden;
+    box-shadow: 0 16px 24px rgba(0, 0, 0, 0.05);
+
+}
+
+@media screen and (max-width: 900px) {
+    .movies-card {
+        /*max-width: 339px;*/
+    }
+}
+
+.movies-card__image {
+    border-radius: 10px 10px 0 0;
+
+}
+
+.movies-card__caption {
+    margin: 14px 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: flex-start;
+
+}
+
+.movies-card__text {
+
+}
+
+.movies-card__description {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    margin: 0 0 10px;
+
+}
+
+.movies-card__duration {
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: rgba(139, 139, 139, 1);
+    margin: 0;
+
+}
+
+.movies-card__like {
+
+}
+
+.movies-card__like-button {
+    display: none;
+}
+
+.movies-card__like-newbutton {
+    font-size: 16px;
+    color: #bfbfbf;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.movies-card__like-newbutton:before {
+    content: '';
+    display: inline-block;
+    background: rgba(49, 49, 49, 1);
+    height: 16px;
+    width: 16px;
+    border-radius: 100%;
+    box-sizing: border-box;
+    border: 2px solid #fff;
+    /*transition: border .3s ease;*/
+}
+
+.movies-card__like-button:checked + .movies-card__like-newbutton:before {
+    background-color: rgba(43, 224, 128, 1);
+}
+
+/*.movies-card__like-button + .movies-card__like-newbutton {*/
+/*    transition: color .7s ease;*/
+/*}*/
+
+.movies-card__like-button:checked + .movies-card__like-newbutton {
+    color: rgba(43, 224, 128, 1);
+}
+
+.movies-card__delete {
+    display: flex;
+    align-items: center;
+    height: 16px;
+}
+
+.movies-card__delete-button {
+    width: 8px;
+    height: 8px;
+    border: 0;
+    background-color: transparent;
+    background-image: url("../../images/icon-delete.svg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 8px 8px;
+    cursor: pointer;
+    transition: opacity 0.2s linear;
+}
+
+.movies-card__delete-button:hover{
+    opacity: 0.6;
+}

@@ -1,0 +1,55 @@
+.promo {
+    background-color: rgba(7, 48, 66, 1);
+    min-height: 560px;
+    width: 100%;
+    position: relative;
+    background-size: 720px 224px;
+    background-image: url("../../images/circles_landing.svg");
+    background-position-x:  right;
+    background-position-y: 89.3%;
+    background-repeat: no-repeat;
+}
+
+@media screen and (max-width: 900px) {
+    .promo {
+        min-height: 844px;
+        display: flex;
+        flex-direction: column;
+        background-position-x:  center;
+        background-position-y: 91.7%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .promo {
+        min-height: 630px;
+    }
+}
+
+.promo__header {
+    font-size: 40px;
+    line-height: 52px;
+    letter-spacing: -0.04em;
+    font-weight: 400;
+    color: #FFFFFF;
+    margin: 0;
+    max-width: 626px;
+    padding: 50px 0 0 70px;
+}
+
+@media screen and (max-width: 900px) {
+    .promo__header {
+        padding: 300px 0 0;
+        text-align: center;
+        margin: 0 44px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .promo__header {
+        padding: 183px 0 0;
+        font-size: 31px;
+        line-height: 39px;
+        margin: 0 10px;
+    }
+}

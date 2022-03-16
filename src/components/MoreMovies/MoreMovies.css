@@ -1,0 +1,35 @@
+.more-movies {
+    display: flex;
+    justify-content: center;
+}
+
+.more-movies__button {
+    margin: 50px 0 80px;
+    padding: 0;
+    width: 320px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    color: rgba(255, 255, 255, 1);
+    background-color: rgba(32, 32, 32, 1);
+    border: 1px solid #424242;
+    height: 36px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: opacity 0.2s linear;
+}
+
+.more-movies__button:hover{
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 500px) {
+    .more-movies__button {
+        width: 240px;
+    }
+}
+
+.more-movies__without-button {
+    height: 140px;
+}
+
