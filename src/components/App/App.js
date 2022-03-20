@@ -4,7 +4,8 @@ import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
 // import {CurrentUserContext} from "../../contexts/CurrentUserContext";
-// import api from "../utils/Api";
+import api from "../../utils/MoviesApi";
+import mainApi from "../../utils/MainApi";
 import Register from '../Register/Register';
 import Login from "../Login/Login";
 import Movies from "../Movies/Movies";
@@ -12,9 +13,92 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
 import {Routes, Route, useNavigate} from "react-router-dom";
+import {movies} from "../../utils/constants";
 
+let modificatedMovies = [];
 
 function App() {
+
+  const [checkedShorts, setCheckedShorts] = useState(false);
+  const [slice, setSlice] = useState(4);
+
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
+  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
+
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [authorizedEmail, setIsAuthorizedEmail] = useState('');
+
+  const [currentUser, setIsCurrentUser] = useState({avatar: '', name: '', about: ''});
+
+  const [cards, setIsCards] = useState([]);
+
+  const [loggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    Promise.all([api.getAllMovies()])
+        .then(([allMovies]) => {
+          modificatedMovies = allMovies;
+
+          filterShorts()
+          // applyFilterShorts(allMovies);
+          // applySlice(allMovies);
+          setIsCards(allMovies);
+        })
+        .catch((err) => {
+          console.log(`${err}`);
+        })
+  }, [checkedShorts]);
+
+  // useEffect(() => {
+  //   handleTokenCheck()
+  // }, [])
+
+  // useEffect(() => {
+  //   if (loggedIn === true) {
+  //     navigate('/movies');
+  //     Promise.all([api.getAllMovies(), mainApi.getApiUserInfo()])
+  //         .then(([allMovies, userData]) => {
+  //           setIsCurrentUser(userData);
+  //           setIsCards(allMovies.reverse());
+  //         })
+  //         .catch((err) => console.log(`${err}`));
+  //   }
+  // }, [loggedIn, navigate])
+
+  function filterShorts() {
+    setCheckedShorts(true)
+  }
+
+  function applyFilterShorts(movies) {
+    let filteredArr = [];
+    if (checkedShorts === false) {
+      return movies;
+    }
+    if (checkedShorts === true) {
+      filteredArr = movies.filter(item => (item.duration <= 40))
+    }
+    movies = filteredArr
+    return movies;
+  }
+
+  function applySlice(movies) {
+    return movies.slice(0, slice);
+  }
+
+  function addMovies() {
+    setSlice(slice+4)
+  }
+
+  function applyAll() {
+    let moviesCopy = modificatedMovies.slice()
+    moviesCopy = applyFilterShorts(moviesCopy)
+    moviesCopy = applySlice(moviesCopy)
+    return moviesCopy;
+  }
+
+  let movies = applyAll()
 
   return (
       // <CurrentUserContext.Provider value={currentUser}>
@@ -27,7 +111,9 @@ function App() {
               <Login
               />}/>
             <Route path="/movies" element={
-              <Movies
+              <Movies movies={movies}
+                      onCheckboxShorts={filterShorts}
+                      addMovies={addMovies}
               />}/>
             <Route path="/saved-movies" element={
               <SavedMovies

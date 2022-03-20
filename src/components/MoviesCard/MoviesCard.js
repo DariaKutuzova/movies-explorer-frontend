@@ -8,13 +8,14 @@ import {Link} from "react-router-dom";
 function MoviesCard({movie}) {
 
     const address = useLocation();
+    const baseUrl = 'https://api.nomoreparties.co'
 
     return (
             <article className="movies-card">
-                <img src={movie.image} alt={`${movie.name}`} className="movies-card__image"/>
+                <img src={`${baseUrl}${movie.image.url}`} alt={`${movie.nameRU}`} className="movies-card__image"/>
                 <div className="movies-card__caption">
                     <div className="movies-card__text">
-                    <h2 className="movies-card__description">{movie.name}</h2>
+                    <h2 className="movies-card__description">{movie.nameRU}</h2>
                     <span className="movies-card__duration">{movie.duration}</span>
                     </div>
                     <div>
