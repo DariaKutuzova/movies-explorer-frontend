@@ -22,6 +22,7 @@
     border-radius: 10px 10px 0 0;
     height: 151px;
     object-fit: cover;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 900px) {

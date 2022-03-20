@@ -19,118 +19,162 @@ let modificatedMovies = [];
 
 function App() {
 
-  const [checkedShorts, setCheckedShorts] = useState(false);
-  const [slice, setSlice] = useState(4);
+    const [checkedShorts, setCheckedShorts] = useState(false);
+    const [slice, setSlice] = useState(4);
+    const [startState, setStartState] = useState(true);
 
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
-  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
+    const [savedMovies, setSavedMovies] = useState([]);
+    // const [selectedCard, setIsSelectedCard] = useState(null);
 
-  const [isRegistered, setIsRegistered] = useState(false);
-  const [authorizedEmail, setIsAuthorizedEmail] = useState('');
+    const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+    const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
+    const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
 
-  const [currentUser, setIsCurrentUser] = useState({avatar: '', name: '', about: ''});
+    const [isRegistered, setIsRegistered] = useState(false);
+    const [authorizedEmail, setIsAuthorizedEmail] = useState('');
 
-  const [cards, setIsCards] = useState([]);
+    const [currentUser, setIsCurrentUser] = useState({avatar: '', name: '', about: ''});
 
-  const [loggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate()
+    const [cards, setIsCards] = useState([]);
 
-  useEffect(() => {
-    Promise.all([api.getAllMovies()])
-        .then(([allMovies]) => {
-          modificatedMovies = allMovies;
+    const [loggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate()
 
-          filterShorts()
-          // applyFilterShorts(allMovies);
-          // applySlice(allMovies);
-          setIsCards(allMovies);
-        })
-        .catch((err) => {
-          console.log(`${err}`);
-        })
-  }, [checkedShorts]);
-
-  // useEffect(() => {
-  //   handleTokenCheck()
-  // }, [])
-
-  // useEffect(() => {
-  //   if (loggedIn === true) {
-  //     navigate('/movies');
-  //     Promise.all([api.getAllMovies(), mainApi.getApiUserInfo()])
-  //         .then(([allMovies, userData]) => {
-  //           setIsCurrentUser(userData);
-  //           setIsCards(allMovies.reverse());
-  //         })
-  //         .catch((err) => console.log(`${err}`));
-  //   }
-  // }, [loggedIn, navigate])
-
-  function filterShorts() {
-    setCheckedShorts(true)
-  }
-
-  function applyFilterShorts(movies) {
-    let filteredArr = [];
-    if (checkedShorts === false) {
-      return movies;
+    const AllMovies = () => {
+        api.getAllMovies()
+            .then((movies) => {
+                setIsCards(movies);
+            })
+            .catch((err) => {
+                console.log(`${err}`);
+            })
     }
-    if (checkedShorts === true) {
-      filteredArr = movies.filter(item => (item.duration <= 40))
+
+    useEffect(() => {
+
+        AllMovies()
+    }, [])
+
+    const filterMovies = (value) => {
+        return cards.filter(movie => {
+            return movie.nameRU.toLowerCase().includes(value.toLowerCase())
+        })
     }
-    movies = filteredArr
-    return movies;
-  }
 
-  function applySlice(movies) {
-    return movies.slice(0, slice);
-  }
+    const filterShorts = () => {
 
-  function addMovies() {
-    setSlice(slice+4)
-  }
+    }
 
-  function applyAll() {
-    let moviesCopy = modificatedMovies.slice()
-    moviesCopy = applyFilterShorts(moviesCopy)
-    moviesCopy = applySlice(moviesCopy)
-    return moviesCopy;
-  }
+    // useEffect(() => {
+    //   Promise.all([api.getAllMovies()])
+    //       .then(([allMovies]) => {
+    //         setIsCards(allMovies);
+    //       })
+    //       .catch((err) => {
+    //         console.log(`${err}`);
+    //       })
+    // }, [checkedShorts]);
 
-  let movies = applyAll()
+    // useEffect(() => {
+    //   handleTokenCheck()
+    // }, [])
 
-  return (
-      // <CurrentUserContext.Provider value={currentUser}>
+    // useEffect(() => {
+    //   if (loggedIn === true) {
+    //     navigate('/movies');
+    //     Promise.all([api.getAllMovies(), mainApi.getApiUserInfo()])
+    //         .then(([allMovies, userData]) => {
+    //           setIsCurrentUser(userData);
+    //           setIsCards(allMovies.reverse());
+    //         })
+    //         .catch((err) => console.log(`${err}`));
+    //   }
+    // }, [loggedIn, navigate])
+
+    // function filterShorts() {
+    //   setCheckedShorts(true)
+    // }
+    //
+    // function applyFilterShorts(movies) {
+    //   let filteredArr = [];
+    //   if (checkedShorts === false) {
+    //     return movies;
+    //   }
+    //   if (checkedShorts === true) {
+    //     filteredArr = movies.filter(item => (item.duration <= 40))
+    //   }
+    //   movies = filteredArr
+    //   return movies;
+    // }
+    //
+    // function applySlice(movies) {
+    //   return movies.slice(0, slice);
+    // }
+
+    function addMovies() {
+        setSlice(slice + 4)
+    }
+
+    //
+    // function applyAll() {
+    //   let moviesCopy = modificatedMovies.slice()
+    //   moviesCopy = applyFilterShorts(moviesCopy)
+    //   moviesCopy = applySlice(moviesCopy)
+    //   return moviesCopy;
+    // }
+    //
+    // let movies = applyAll()
+
+    function searchMovies() {
+
+    }
+
+    //Функция лайка карточки
+    function handleMovieLike(movie) {
+        mainApi.saveMovie(movie)
+            .then((data) => {
+                setSavedMovies([...savedMovies, data])
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+
+    return (
+        // <CurrentUserContext.Provider value={currentUser}>
         <div className="app">
-          <Routes>
-            <Route path="/signup" element={
-              <Register
-              />}/>
-            <Route path="/signin" element={
-              <Login
-              />}/>
-            <Route path="/movies" element={
-              <Movies movies={movies}
-                      onCheckboxShorts={filterShorts}
-                      addMovies={addMovies}
-              />}/>
-            <Route path="/saved-movies" element={
-              <SavedMovies
-              />}/>
-            <Route path="/profile" element={
-              <Profile
-              />}/>
-            <Route exact path="/" element={
-              <Main
-              />}/>
-            <Route path="*" element={
-              <NotFound />}/>
-          </Routes>
+            <Routes>
+                <Route path="/signup" element={
+                    <Register
+                    />}/>
+                <Route path="/signin" element={
+                    <Login
+                    />}/>
+                <Route path="/movies" element={
+                    <Movies movies={filterMovies}
+                            onCheckboxShorts={filterShorts}
+                            addMovies={addMovies}
+                            startState={startState}
+                            onSaveMovie={handleMovieLike}
+                        // onSearch={filterMovies}
+                    />}/>
+                <Route path="/saved-movies" element={
+                    <SavedMovies
+                    />}/>
+                <Route path="/profile" element={
+                    <Profile
+                    />}/>
+                <Route exact path="/" element={
+                    <Main
+                    />}/>
+                <Route path="*" element={
+                    <NotFound/>}/>
+            </Routes>
         </div>
-      // </CurrentUserContext.Provider>
-  )
-      ;
+        // </CurrentUserContext.Provider>
+    )
+        ;
 }
 
 export default App;

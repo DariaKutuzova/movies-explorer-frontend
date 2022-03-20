@@ -27,16 +27,33 @@ class MainApi{
             .then(this._checkResponse)
     }
     //Добавление фильма
-    addMovies(data) {
-        return fetch(`${this._url}movies/`, {
+    saveMovie(data) {
+        return fetch(`${this._url}/movies`, {
             method: 'POST',
             headers: this._getHeaders(),
             body: JSON.stringify({
-                name: data.name,
-
+                country: data.country,
+                director: data.director,
+                duration: data.duration,
+                year: data.year,
+                description: data.description,
+                movieId: data.movieId,
+                image: data.image,
+                trailer: data.trailer,
+                thumbnail: data.thumbnail,
+                nameRU: data.nameRU,
+                nameEN: data.nameEN,
             })
         })
-            .then(this._checkResponse)
+            .then(this._checkResponse);
+    }
+
+    //Удалить фильм
+    deleteMovie(id) {
+        return fetch(`${this._url}movies/${id}`, {
+            method: "DELETE",
+            headers: this._getHeaders(),
+        }).then(this._checkResponse)
     }
 
 //Имя и email с сервера
@@ -59,13 +76,7 @@ class MainApi{
         })
             .then(this._checkResponse)
     }
-//Удалить фильм
-    deleteMovie(id) {
-        return fetch(`${this._url}movies/${id}`, {
-            method: "DELETE",
-            headers: this._getHeaders(),
-        }).then(this._checkResponse)
-    }
+
 // Регистрация
     register(email, password, name) {
         return fetch(`${this._url}/signup`, {

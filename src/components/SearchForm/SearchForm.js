@@ -3,17 +3,25 @@ import '../App/App.css'
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import {useState} from 'react';
 
-function SearchForm({onCheckboxShorts}) {
+function SearchForm({onCheckboxShorts, onSearch}) {
 
-    const [checkedShorts, setCheckedShorts] = useState(false);
+    const [inputValue, setInputValue] = useState('');
 
-    function changeCheckboxShorts(e) {
-        let newState = {
-            ...checkedShorts,
-            [e.target.name]: e.target.checked
-        };
-        setCheckedShorts(newState);
-        onCheckboxShorts(newState)
+    function handleSubmit(e) {
+        // Запрещаем браузеру переходить по адресу формы
+        e.preventDefault();
+
+        // Передаём значения управляемых компонентов во внешний обработчик
+        onSearch(inputValue
+            );
+    }
+
+
+    function checkInputValue(e) {
+        console.log(e.target.value)
+        setInputValue(
+            e.target.value
+        )
     }
 
     return (
@@ -21,10 +29,13 @@ function SearchForm({onCheckboxShorts}) {
         <form action="" method="get" className="search-form app__container">
             <div className="search-form__container">
             <input className="search-form__input" name="search" placeholder="Фильм" type="search"
-                   onChange={changeCheckboxShorts} required/>
-            <button className="search-form__button" type="submit"/>
+                   onChange={checkInputValue}
+                   value={inputValue}
+                   required/>
+            <button className="search-form__button" type="submit" onSubmit={handleSubmit}/>
             </div>
-            <FilterCheckbox/>
+            <FilterCheckbox
+                onCheckboxShorts={onCheckboxShorts}/>
         </form>
         </div>
     );
