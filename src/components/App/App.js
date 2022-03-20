@@ -152,11 +152,13 @@ function App() {
                     <Login
                     />}/>
                 <Route path="/movies" element={
-                    <Movies movies={filterMovies}
-                            onCheckboxShorts={filterShorts}
-                            addMovies={addMovies}
-                            startState={startState}
-                            onSaveMovie={handleMovieLike}
+                    <Movies
+                        // cards={cards}
+                        filterMovies={filterMovies}
+                        onCheckboxShorts={filterShorts}
+                        addMovies={addMovies}
+                        startState={startState}
+                        onSaveMovie={handleMovieLike}
                         // onSearch={filterMovies}
                     />}/>
                 <Route path="/saved-movies" element={

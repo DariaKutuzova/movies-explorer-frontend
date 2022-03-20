@@ -11,14 +11,13 @@ function SearchForm({onCheckboxShorts, onSearch}) {
         // Запрещаем браузеру переходить по адресу формы
         e.preventDefault();
 
+        console.log(inputValue)
         // Передаём значения управляемых компонентов во внешний обработчик
         onSearch(inputValue
             );
     }
 
-
     function checkInputValue(e) {
-        console.log(e.target.value)
         setInputValue(
             e.target.value
         )
@@ -26,13 +25,13 @@ function SearchForm({onCheckboxShorts, onSearch}) {
 
     return (
         <div className="app__container">
-        <form action="" method="get" className="search-form app__container">
+        <form action="" method="get" className="search-form app__container"  onSubmit={handleSubmit}>
             <div className="search-form__container">
             <input className="search-form__input" name="search" placeholder="Фильм" type="search"
                    onChange={checkInputValue}
                    value={inputValue}
                    required/>
-            <button className="search-form__button" type="submit" onSubmit={handleSubmit}/>
+            <button className="search-form__button" type="submit"/>
             </div>
             <FilterCheckbox
                 onCheckboxShorts={onCheckboxShorts}/>
