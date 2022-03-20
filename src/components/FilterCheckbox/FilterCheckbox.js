@@ -2,16 +2,14 @@ import './FilterCheckbox.css';
 import '../App/App.css'
 import {useState} from "react";
 
-function FilterCheckbox(onCheckboxShorts) {
+function FilterCheckbox({onCheckboxShorts}) {
 
     const [checkedShorts, setCheckedShorts] = useState(false);
 
     function changeCheckboxShorts(e) {
-        let newState = {
-            ...checkedShorts,
-            [e.target.name]: e.target.checked
-        };
-        setCheckedShorts(!checkedShorts);
+        let newState = e.target.checked;
+
+        setCheckedShorts(newState);
         onCheckboxShorts(newState)
     }
 
@@ -19,7 +17,8 @@ function FilterCheckbox(onCheckboxShorts) {
 
         <div className="filter-checkbox">
                 <input className="filter-checkbox__input" type="checkbox" id="cbx"
-                       onChange={changeCheckboxShorts} />
+                       onChange={changeCheckboxShorts}
+                       checked={checkedShorts}/>
                 <label htmlFor="cbx" className="filter-checkbox__description">
                         Короткометражки
                 </label>

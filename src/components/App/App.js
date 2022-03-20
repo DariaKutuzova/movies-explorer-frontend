@@ -61,8 +61,10 @@ function App() {
         })
     }
 
-    const filterShorts = () => {
-
+    const filterShorts = (movies) => {
+        return movies.filter(movie => {
+            return movie.duration <= 40
+        })
     }
 
     // useEffect(() => {
@@ -155,7 +157,8 @@ function App() {
                     <Movies
                         // cards={cards}
                         filterMovies={filterMovies}
-                        onCheckboxShorts={filterShorts}
+                        filterShorts={filterShorts}
+                        // onCheckboxShorts={filterShorts}
                         addMovies={addMovies}
                         startState={startState}
                         onSaveMovie={handleMovieLike}

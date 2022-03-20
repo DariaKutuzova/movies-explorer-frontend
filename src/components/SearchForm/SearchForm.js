@@ -11,7 +11,6 @@ function SearchForm({onCheckboxShorts, onSearch}) {
         // Запрещаем браузеру переходить по адресу формы
         e.preventDefault();
 
-        console.log(inputValue)
         // Передаём значения управляемых компонентов во внешний обработчик
         onSearch(inputValue
             );

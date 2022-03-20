@@ -5,21 +5,21 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import {useState} from "react";
 
-// import {movies} from "../../utils/constants";
-
-function Movies({onCheckboxShorts, addMovies, startState, onSaveMovie, onSearch, cards, filterMovies}) {
+function Movies({addMovies, startState, onSaveMovie, filterMovies, filterShorts}) {
 
     const [filteredMovies, setFilteredMovies] = useState([]);
-
-    // const filterMovies = (value) => {
-    //     setFilteredMovies(cards.filter(movie => {
-    //         return movie.nameRU.toLowerCase().includes(value.toLowerCase())
-    //     }))
-    // }
+    // const [shortState, setShortState] = useState([]);
+    const [finalMovies, setFinalMovies] = useState([]);
 
     const setMovies = (value) => {
         setFilteredMovies(filterMovies(value))
-        console.log(filteredMovies)
+        setFinalMovies(filterMovies(value))
+    }
+
+    const filterShortMovies = (value) => {
+        if (value) {
+            setFinalMovies(filterShorts(filteredMovies))
+        } else setFinalMovies(filteredMovies)
     }
 
     return (
@@ -27,10 +27,10 @@ function Movies({onCheckboxShorts, addMovies, startState, onSaveMovie, onSearch,
             <Header/>
             <div className="movies app__item">
                 <SearchForm
-                    onCheckboxShorts={onCheckboxShorts}
+                    onCheckboxShorts={filterShortMovies}
                     onSearch={setMovies}/>
                 <MoviesCardList
-                    movies={filteredMovies}
+                    movies={finalMovies}
                     startState={startState}
                     onSaveMovie={onSaveMovie}/>
                 <MoreMovies
