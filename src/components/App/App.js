@@ -12,8 +12,11 @@ import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
+import ProtectedRoute from "../ProtectedRoute";
 import {Routes, Route, useNavigate} from "react-router-dom";
 import {movies} from "../../utils/constants";
+import {CurrentUserContext} from "../../contexts/CurrentUserContext";
+import MainApi from "../../utils/MainApi";
 
 let modificatedMovies = [];
 
@@ -33,7 +36,7 @@ function App() {
     const [isRegistered, setIsRegistered] = useState(false);
     const [authorizedEmail, setIsAuthorizedEmail] = useState('');
 
-    const [currentUser, setIsCurrentUser] = useState({avatar: '', name: '', about: ''});
+    const [currentUser, setIsCurrentUser] = useState({name: '', email: ''});
 
     const [cards, setIsCards] = useState([]);
 
@@ -50,9 +53,16 @@ function App() {
             })
     }
 
-    useEffect(() => {
+    const getUserInfo = () => {
+        mainApi.getApiUserInfo()
+            .then((userData) => {
+                setIsCurrentUser(userData)
+            })
+    }
 
-        AllMovies()
+    useEffect(() => {
+        AllMovies();
+        getUserInfo();
     }, [])
 
     const filterMovies = (value) => {
@@ -65,6 +75,83 @@ function App() {
         return movies.filter(movie => {
             return movie.duration <= 40
         })
+    }
+
+    const sliceMovies = (movies, slice) => {
+        return movies.slice(0, slice);
+    }
+
+    //Проверка токена
+    function handleTokenCheck() {
+        const jwt = localStorage.getItem("jwt")
+        if (jwt) {
+            mainApi.checkToken(jwt)
+                .then((res) => {
+                    if (res) {
+                        setIsLoggedIn(true)
+                        setIsAuthorizedEmail(res.email)
+                    }
+                })
+                .catch((err) => {
+                    console.log(`Не удалось получить токен: ${err}`)
+                })
+        }
+    }
+
+    //Регистрация
+    function handleSignUp(email, password, name) {
+        mainApi.register(email, password, name)
+            .then(
+                () => {
+                    setIsRegistered(true);
+                    navigate('/signin');
+                })
+            .catch((err) => {
+                console.log(err);
+                setIsRegistered(false);
+            })
+            .finally(() => {
+                setIsInfoTooltipPopupOpen(true);
+            })
+    }
+
+    //Функция входа
+    function handleAuthorize(email, password) {
+        mainApi.authorize(email, password)
+            .then((data) => {
+                localStorage.setItem('jwt', data.token);
+                handleTokenCheck();
+                setIsLoggedIn(true);
+                setIsAuthorizedEmail(email)
+                navigate('/movies');
+                console.log('ok')
+            })
+            .catch((err) => {
+                if (err === Number(400)) {
+                    alert('Не заполнено одно из полей')
+                } else if (err === Number(401)) {
+                    alert('Неправильно введен логин или пароль')
+                }
+            })
+    }
+
+    //Функция выхода из акка
+    function handleLogout() {
+        localStorage.removeItem('jwt')
+        setIsLoggedIn(false)
+        navigate('/signin')
+    }
+
+    //Изменить инфо пользователя
+    function handleUpdateUser(data) {
+        mainApi.patchUserInfo(data)
+            .then(
+                (data) => {
+                    setIsCurrentUser(data);
+                })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     // useEffect(() => {
@@ -93,43 +180,10 @@ function App() {
     //   }
     // }, [loggedIn, navigate])
 
-    // function filterShorts() {
-    //   setCheckedShorts(true)
-    // }
-    //
-    // function applyFilterShorts(movies) {
-    //   let filteredArr = [];
-    //   if (checkedShorts === false) {
-    //     return movies;
-    //   }
-    //   if (checkedShorts === true) {
-    //     filteredArr = movies.filter(item => (item.duration <= 40))
-    //   }
-    //   movies = filteredArr
-    //   return movies;
-    // }
-    //
-    // function applySlice(movies) {
-    //   return movies.slice(0, slice);
+    // function addMovies() {
+    //     setSlice(slice + 4)
     // }
 
-    function addMovies() {
-        setSlice(slice + 4)
-    }
-
-    //
-    // function applyAll() {
-    //   let moviesCopy = modificatedMovies.slice()
-    //   moviesCopy = applyFilterShorts(moviesCopy)
-    //   moviesCopy = applySlice(moviesCopy)
-    //   return moviesCopy;
-    // }
-    //
-    // let movies = applyAll()
-
-    function searchMovies() {
-
-    }
 
     //Функция лайка карточки
     function handleMovieLike(movie) {
@@ -144,40 +198,54 @@ function App() {
 
 
     return (
-        // <CurrentUserContext.Provider value={currentUser}>
-        <div className="app">
-            <Routes>
-                <Route path="/signup" element={
-                    <Register
-                    />}/>
-                <Route path="/signin" element={
-                    <Login
-                    />}/>
-                <Route path="/movies" element={
-                    <Movies
-                        // cards={cards}
-                        filterMovies={filterMovies}
-                        filterShorts={filterShorts}
-                        // onCheckboxShorts={filterShorts}
-                        addMovies={addMovies}
-                        startState={startState}
-                        onSaveMovie={handleMovieLike}
-                        // onSearch={filterMovies}
-                    />}/>
-                <Route path="/saved-movies" element={
-                    <SavedMovies
-                    />}/>
-                <Route path="/profile" element={
-                    <Profile
-                    />}/>
-                <Route exact path="/" element={
-                    <Main
-                    />}/>
-                <Route path="*" element={
-                    <NotFound/>}/>
-            </Routes>
-        </div>
-        // </CurrentUserContext.Provider>
+        <CurrentUserContext.Provider value={currentUser}>
+            <div className="app">
+                <Header
+                    loggedIn={loggedIn}
+                />
+                <Routes>
+                    <Route path="/signup" element={
+                        <Register onAddUser={handleSignUp}
+                        />}/>
+                    <Route path="/signin" element={
+                        <Login onEntryUser={handleAuthorize}
+                        />}/>
+                    <Route path="/movies" element={
+                        <ProtectedRoute
+                            element={Movies}
+                            loggedIn={loggedIn}
+                            // cards={cards}
+                            filterMovies={filterMovies}
+                            filterShorts={filterShorts}
+                            sliceMovies={sliceMovies}
+                            // onCheckboxShorts={filterShorts}
+                            // addMovies={addMovies}
+                            startState={startState}
+                            onSaveMovie={handleMovieLike}
+                            // onSearch={filterMovies}
+                            // onSingOut={handleLogout}
+                        />}/>
+                    <Route path="/saved-movies" element={
+                            <ProtectedRoute
+                                element={SavedMovies}
+                                loggedIn={loggedIn}
+                            // onSingOut={handleLogout}
+                        />}/>
+                    <Route path="/profile" element={
+                        <ProtectedRoute
+                            element={Profile}
+                            loggedIn={loggedIn}
+                            onSingOut={handleLogout}
+                            onUpdateUser={handleUpdateUser}
+                        />}/>
+                    <Route exact path="/" element={
+                        <Main
+                        />}/>
+                    <Route path="*" element={
+                        <NotFound/>}/>
+                </Routes>
+            </div>
+        </CurrentUserContext.Provider>
     )
         ;
 }

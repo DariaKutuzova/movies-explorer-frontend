@@ -5,11 +5,13 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import {useState} from "react";
 
-function Movies({addMovies, startState, onSaveMovie, filterMovies, filterShorts}) {
+function Movies({addMovies, startState, onSaveMovie, filterMovies, filterShorts, sliceMovies}) {
 
     const [filteredMovies, setFilteredMovies] = useState([]);
     // const [shortState, setShortState] = useState([]);
     const [finalMovies, setFinalMovies] = useState([]);
+    const [slicedMovies, setSlicedMovies] = useState([]);
+    const [slice, setSlice] = useState(4)
 
     const setMovies = (value) => {
         setFilteredMovies(filterMovies(value))
@@ -22,9 +24,12 @@ function Movies({addMovies, startState, onSaveMovie, filterMovies, filterShorts}
         } else setFinalMovies(filteredMovies)
     }
 
+    const sliceMoviesArray = () => {
+        setSlicedMovies(sliceMovies(finalMovies,slice))
+    }
+
     return (
         <div>
-            <Header/>
             <div className="movies app__item">
                 <SearchForm
                     onCheckboxShorts={filterShortMovies}

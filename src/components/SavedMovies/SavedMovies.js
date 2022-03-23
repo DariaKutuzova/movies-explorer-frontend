@@ -5,11 +5,10 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import {savedMovies} from "../../utils/constants";
 
-function SavedMovies() {
+function SavedMovies({}) {
 
     return (
         <div>
-            <Header/>
             <div className="movies app__item">
                 <SearchForm/>
                 <MoviesCardList

@@ -2,7 +2,7 @@ import '../Header/Header.css';
 import './Navigation.css';
 import {useLocation, Link, useNavigate} from "react-router-dom";
 
-function Navigation() {
+function Navigation({onSingOut}) {
 
     const navigate = useNavigate();
     const address = useLocation();

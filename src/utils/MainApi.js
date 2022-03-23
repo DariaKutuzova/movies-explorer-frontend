@@ -58,15 +58,15 @@ class MainApi{
 
 //Имя и email с сервера
     getApiUserInfo() {
-        return fetch(`${this._url}users/me`, {
+        return fetch(`${this._url}/users/me`, {
             method: 'GET',
             headers: this._getHeaders(),
         })
             .then(this._checkResponse)
     }
-//Имя и email из формы на страницу
+//Изменить Имя и email
     patchUserInfo(data) {
-        return fetch(`${this._url}users/me`, {
+        return fetch(`${this._url}/users/me`, {
             method: 'PATCH',
             headers: this._getHeaders(),
             body: JSON.stringify({
