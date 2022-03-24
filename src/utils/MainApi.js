@@ -18,9 +18,9 @@ class MainApi{
         }
     }
 
-    //Рендер всех фильмов на страницу с сервера
+    //Получение всех сохраненных фильмов
     getAllMovies() {
-        return fetch(`${this._url}movies/`, {
+        return fetch(`${this._url}/movies/`, {
             method: 'GET',
             headers: this._getHeaders()
         })
@@ -50,7 +50,7 @@ class MainApi{
 
     //Удалить фильм
     deleteMovie(id) {
-        return fetch(`${this._url}movies/${id}`, {
+        return fetch(`${this._url}/movies/${id}`, {
             method: "DELETE",
             headers: this._getHeaders(),
         }).then(this._checkResponse)

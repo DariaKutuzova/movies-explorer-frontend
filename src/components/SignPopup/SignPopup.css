@@ -148,13 +148,18 @@
 .sign__text-error {
     font-weight: 400;
     font-size: 10px;
-    line-height: 0;
+    line-height: 12px;
     color: rgba(238, 52, 101, 1);
     visibility: hidden;
     opacity: 0;
     transition: all .2s ease-in-out;
     padding: 10px 0 5px;
 }
+
+.sign__text-error:last-of-type {
+    margin-bottom: 240px;
+}
+
 
 .sign__text-error_active {
     opacity: 1;

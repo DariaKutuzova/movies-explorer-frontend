@@ -7,6 +7,7 @@ import Navigation from "../Navigation/Navigation";
 function Header({loggedIn, onSingOut, autoEmail}) {
 
     const [isActive, setIsActive] = useState(false);
+    // const [isOpenNav, setIsOpenNav] = useState(false);
 
     const address = useLocation();
     const navigate = useNavigate();
@@ -41,12 +42,11 @@ function Header({loggedIn, onSingOut, autoEmail}) {
 
     return (
         <div style={{margin: 0}}>
-            {address.pathname !== '/signup' ||
-                address.pathname !== '/signin' ||
-                address.pathname !== '/profile' ?
+            {address.pathname === '/signup' ||
+                address.pathname === '/signin' ? null :
 
                 (!loggedIn ?
-                (<header className="app__item header app__container header_landing">
+                (<header className={`app__item header app__container ${address.pathname === '/' ? 'header_landing' : ''}`}>
                 <div className="header__basic">
                 <img src={logo} alt="Лого шапки" className="header__logo" onClick={handleLanding}/>
                 <nav className="header__entry">
@@ -56,7 +56,7 @@ function Header({loggedIn, onSingOut, autoEmail}) {
                 </div>
                 </header>)
                 :
-                (<header className="app__item header app__container">
+                (<header className={`app__item header app__container ${address.pathname === '/' ? 'header_landing' : ''}`}>
                 <div className="header__basic">
                 <nav className="header__navigation">
                 <img src={logo} alt="Лого шапки" className="header__logo" onClick={handleLanding}/>
@@ -76,9 +76,9 @@ function Header({loggedIn, onSingOut, autoEmail}) {
                 </button>
                 </div>
             {isActive ? <Navigation
-                // onSingOut={onSingOut}
-                /> : ''}
-                </header>)) : <div/>
+                onClose={handleNavi}
+                />: ""}
+                </header>))
             }
         </div>
     );

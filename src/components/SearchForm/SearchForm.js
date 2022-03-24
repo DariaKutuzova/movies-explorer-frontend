@@ -17,6 +17,13 @@ function SearchForm({onCheckboxShorts, onSearch}) {
     }
 
     function checkInputValue(e) {
+
+        if (e.target.value==='') {
+            e.target.setCustomValidity("Нужно ввести ключевое слово");
+        } else {
+            e.target.setCustomValidity("");
+        }
+
         setInputValue(
             e.target.value
         )
@@ -28,6 +35,7 @@ function SearchForm({onCheckboxShorts, onSearch}) {
             <div className="search-form__container">
             <input className="search-form__input" name="search" placeholder="Фильм" type="search"
                    onChange={checkInputValue}
+                   onFocus={checkInputValue}
                    value={inputValue}
                    required/>
             <button className="search-form__button" type="submit"/>

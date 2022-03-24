@@ -55,7 +55,7 @@ function Profile({onSingOut, onUpdateUser}) {
             <div className="profile">
                 <div className="profile__container app__container">
                     <form className="profile__form" onSubmit={handleSubmit}>
-                        <h1 className="profile__header">{`Привет, ${inputValues.name}`}</h1>
+                        <h1 className="profile__header">{`Привет, ${currentUser.name}`}</h1>
                         <div className="profile__string">
                             <label className="profile__label">
                                 Имя
@@ -64,7 +64,8 @@ function Profile({onSingOut, onUpdateUser}) {
                                    value={inputValues.name}
                                    placeholder="Ввeдите имя, чтобы изменить"
                                    onChange={handleValuesChange}
-                            name='name'/>
+                                   name='name'
+                                   required/>
                         </div>
                         <div className="profile__string">
                             <label className="profile__label">
@@ -74,7 +75,8 @@ function Profile({onSingOut, onUpdateUser}) {
                                    value={inputValues.email}
                                    placeholder="Ввeдите email, чтобы изменить"
                                    onChange={handleValuesChange}
-                            name='email'/>
+                                   name='email'
+                                   required/>
                         </div>
                         <button className="profile__change-button" type='submit'>Редактировать</button>
                     </form>

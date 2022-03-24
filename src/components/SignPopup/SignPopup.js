@@ -20,7 +20,8 @@ function SignPopup({isOpen, onClose, name, title, children, onSubmit, isDisabled
                       onSubmit={onSubmit}>
                     {children}
                     <button className={`sign__button`}
-                            disabled={isDisabled} type="submit">{buttonText}
+                            // disabled={isDisabled}
+                            type="submit">{buttonText}
                     </button>
                     {linkToEntry}
                 </form>

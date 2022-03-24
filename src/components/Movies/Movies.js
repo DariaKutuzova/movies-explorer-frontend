@@ -5,10 +5,11 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import {useState} from "react";
 
-function Movies({addMovies, startState, onSaveMovie, filterMovies, filterShorts, sliceMovies}) {
+function Movies({addMovies, onSaveMovie, filterMovies, filterShorts, sliceMovies}) {
+
+    const [startState, setStartState] = useState(true);
 
     const [filteredMovies, setFilteredMovies] = useState([]);
-    // const [shortState, setShortState] = useState([]);
     const [finalMovies, setFinalMovies] = useState([]);
     const [slicedMovies, setSlicedMovies] = useState([]);
     const [slice, setSlice] = useState(4)
@@ -16,6 +17,7 @@ function Movies({addMovies, startState, onSaveMovie, filterMovies, filterShorts,
     const setMovies = (value) => {
         setFilteredMovies(filterMovies(value))
         setFinalMovies(filterMovies(value))
+        setStartState(false)
     }
 
     const filterShortMovies = (value) => {
@@ -39,7 +41,7 @@ function Movies({addMovies, startState, onSaveMovie, filterMovies, filterShorts,
                     startState={startState}
                     onSaveMovie={onSaveMovie}/>
                 <MoreMovies
-                    movies={filteredMovies}
+                    movies={finalMovies}
                     addMovies={addMovies}/>
             </div>
             <Footer/>
