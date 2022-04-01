@@ -2,17 +2,11 @@ import './MoviesCard.css';
 import '../App/App.css';
 import {useLocation} from "react-router-dom";
 import {useState} from 'react';
-import film from '../../images/film.jpg'
-import logo from "../../images/logo.svg";
-import {Link} from "react-router-dom";
 
-function MoviesCard({movie, onSaveMovie}) {
-
-    const [isSaved, setIsSaved] = useState(false);
-    const [savedMovie, setSavedMovie] = useState();
+function MoviesCard({movie, onSaveMovie, onDeleteMovie}) {
+    const [isSaved, setIsSaved] = useState(movie.saved);
 
     const address = useLocation();
-    const baseUrl = 'https://api.nomoreparties.co'
 
     const handleOpenLink = () => {
         window.open(movie.trailerLink);
@@ -26,40 +20,59 @@ function MoviesCard({movie, onSaveMovie}) {
         if (movie.duration > 59 && minutes !== 0) {
             return `${hours}ч ${minutes}мин`
         } else if (movie.duration > 59 && minutes === 0) {
-            return `${hours}ч`}
-        else return `${minutes}мин`
+            return `${hours}ч`
+        } else return `${minutes}мин`
     }
 
-    const handleSaveMovie = () => {
+    const handleSaveMovie = (e) => {
+        console.log(e)
         onSaveMovie(movie);
     }
 
+    const handleDeleteMovie = () => {
+        console.log(movie)
+        console.log(onDeleteMovie)
+        let savedId = movie.savedId ? movie.savedId : movie.id;
+        onDeleteMovie(savedId);
+    }
+
+    const handleCheck = () => {
+        setIsSaved(!isSaved)
+    }
+
     return (
-            <article className="movies-card">
-                <img src={`${baseUrl}${movie.image.url}`} alt={`${movie.nameRU}`} className="movies-card__image"
-                onClick={handleOpenLink}/>
-                <div className="movies-card__caption">
-                    <div className="movies-card__text">
+        <article className="movies-card">
+            <img src={(`${movie.image.url ? movie.image.url : movie.image}`)} alt={`${movie.nameRU}`}
+                 className="movies-card__image"
+                 onClick={handleOpenLink}/>
+            <div className="movies-card__caption">
+                <div className="movies-card__text">
                     <h2 className="movies-card__description">{movie.nameRU}</h2>
                     <span className="movies-card__duration">{parseDuration()}</span>
-                    </div>
-                    <div>
+                </div>
+                <div>
                     {address.pathname === '/movies' &&
-                    (<div className="movies-card__like" onClick={!isSaved ? handleSaveMovie : null }>
-                        <input id={movie.id} type="checkbox" name="check" className="movies-card__like-button"
-                               aria-label="Нравится"/>
-                        <label htmlFor={movie.id} className="movies-card__like-newbutton">
-
-                        </label>
-                    </div>)}
+                        (<div className="movies-card__like">
+                            <input id={movie.id} type="checkbox" name="check" className="movies-card__like-button"
+                                   aria-label="Нравится"
+                                   onChange={handleCheck}
+                                   checked={isSaved}/>
+                            <label
+                                htmlFor={movie.id}
+                                className="movies-card__like-newbutton"
+                                onClick={!isSaved ? handleSaveMovie : handleDeleteMovie}
+                            >
+                            </label>
+                        </div>)}
                     {address.pathname === '/saved-movies' &&
-                    (<div className="movies-card__delete">
-                            <button className="movies-card__delete-button"/>
+                        (<div className="movies-card__delete">
+                            <button className="movies-card__delete-button"
+                                    onClick={handleDeleteMovie}/>
                         </div>)
                     }
-                    </div>
                 </div>
-            </article>
+            </div>
+        </article>
     );
 }
 

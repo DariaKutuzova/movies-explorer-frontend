@@ -1,32 +1,23 @@
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import MoreMovies from '../MoreMovies/MoreMovies';
-import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import {savedMovies} from "../../utils/constants";
 import {useState} from "react";
 
-function SavedMovies({addMovies, startState, onSaveMovie, filterMovies, filterShorts, sliceMovies}) {
+function SavedMovies({filterMovies, filterShorts, onDeleteMovie, cards}) {
 
-    const [filteredMovies, setFilteredMovies] = useState([]);
-    const [finalMovies, setFinalMovies] = useState([]);
-    const [slicedMovies, setSlicedMovies] = useState([]);
-    const [slice, setSlice] = useState(4)
+    const [searchValue, setSearchValue] = useState("");
+    const [isShortMovies, setIsShortMovies] = useState(false);
+
+    let finalMovies = filterShorts(filterMovies(cards, searchValue), isShortMovies);
 
     const setMovies = (value) => {
-        setFilteredMovies(filterMovies(value))
-        setFinalMovies(filterMovies(value))
+        setSearchValue(value)
     }
 
     const filterShortMovies = (value) => {
-        if (value) {
-            setFinalMovies(filterShorts(filteredMovies))
-        } else setFinalMovies(filteredMovies)
+        setIsShortMovies(value)
     }
 
-    const sliceMoviesArray = () => {
-        setSlicedMovies(sliceMovies(finalMovies,slice))
-    }
     return (
         <div>
             <div className="movies app__item">
@@ -35,10 +26,7 @@ function SavedMovies({addMovies, startState, onSaveMovie, filterMovies, filterSh
                     onSearch={setMovies}/>
                 <MoviesCardList
                     movies={finalMovies}
-                    startState={startState}
-                    onSaveMovie={onSaveMovie}/>
-                {/*<MoreMovies*/}
-                {/*    movies={savedMovies}/>*/}
+                    onDeleteMovie={onDeleteMovie}/>
             </div>
             <Footer/>
         </div>

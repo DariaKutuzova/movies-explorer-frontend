@@ -1,7 +1,8 @@
 class Api {
     constructor(config) {
-        this._url = config.url;
+        this._url = this._url ? config.url : config.baseUrl+'/beatfilm-movies';
         this._headers = config.headers;
+        this.baseUrl = config.baseUrl;
     }
 
     // проверка ответа
@@ -32,7 +33,8 @@ class Api {
 
 //Экземпляр API
 const api = new Api({
-    url: "https://api.nomoreparties.co/beatfilm-movies",
+    // url: "https://api.nomoreparties.co/beatfilm-movies",
+    baseUrl:"https://api.nomoreparties.co/",
     // url: "http://localhost:3001/",
     headers: {
         "content-type": "application/json"

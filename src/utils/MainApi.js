@@ -1,3 +1,6 @@
+import api from "./MoviesApi";
+
+
 class MainApi{
     constructor(config) {
         this._url = config.url;
@@ -28,6 +31,9 @@ class MainApi{
     }
     //Добавление фильма
     saveMovie(data) {
+        console.log(data)
+        let image = this.prepareImage(data.image);
+        let thumbnail = data.thumbnail ? this.prepareImage(data.thumbnail) : image;
         return fetch(`${this._url}/movies`, {
             method: 'POST',
             headers: this._getHeaders(),
@@ -38,11 +44,11 @@ class MainApi{
                 year: data.year,
                 description: data.description,
                 movieId: data.movieId,
-                image: data.image,
-                trailer: data.trailer,
-                thumbnail: data.thumbnail,
+                image: image.url,
+                trailerLink: data.trailerLink,
+                thumbnail: thumbnail.url,
                 nameRU: data.nameRU,
-                nameEN: data.nameEN,
+                nameEN: data.nameEN ? data.nameEN : data.nameRU,
             })
         })
             .then(this._checkResponse);
@@ -111,6 +117,12 @@ class MainApi{
             }
         })
             .then(this._checkResponse)
+    }
+
+    prepareImage(image) {
+        return !image.url.startsWith(api.baseUrl) ?
+            Object.assign(image, {url: `${api.baseUrl}${image.url}`}) :
+            image;
     }
 }
 

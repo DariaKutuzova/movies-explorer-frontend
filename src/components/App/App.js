@@ -2,8 +2,6 @@ import {useState, useEffect} from 'react';
 import './App.css';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
-import Footer from '../Footer/Footer';
-// import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import api from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
 import Register from '../Register/Register';
@@ -14,133 +12,82 @@ import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
 import ProtectedRoute from "../ProtectedRoute";
 import {Routes, Route, useNavigate} from "react-router-dom";
-import {movies} from "../../utils/constants";
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
-import MainApi from "../../utils/MainApi";
 import Preloader from "../Preloader/Preloader";
-
-let modificatedMovies = [];
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import withCache from "../../utils/OfflineRepository";
 
 function App() {
 
-    const [checkedShorts, setCheckedShorts] = useState(false);
-    const [slice, setSlice] = useState(4);
-
-    const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-    const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
     const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
-
-    const [isRegistered, setIsRegistered] = useState(false);
-    const [authorizedEmail, setIsAuthorizedEmail] = useState('');
-
+    const [isSuccess, setIsSuccess] = useState(false);
     const [currentUser, setIsCurrentUser] = useState({name: '', email: ''});
 
-    // const [savedMovies, setSavedMovies] = React.useState([]);
-
-    const [cards, setIsCards] = useState([]);
-    const [savedMovies, setSavedMovies] = useState([]);
-
-    const localMovies = JSON.parse(localStorage.getItem("localMovies"));
-    const localFoundMovies = JSON.parse(localStorage.getItem("localFoundMovies"));
-    const localSavedMovies = JSON.parse(localStorage.getItem("localSavedMovies"));
-    const localSavedNotFoundMovies = JSON.parse(
-        localStorage.getItem("localSavedNotFoundMovies")
-    );
+    const [moviesStore, setMoviesStore] = useState({
+        moviesItems: [],
+        savedMovies: [],
+    });
 
     const [isRendering, setIsRendering] = useState(true);
-
     const [isLoading, setIsLoading] = useState(true);
-
     const [loggedIn, setIsLoggedIn] = useState(false);
 
-    const [moviesItems, setMoviesItems] = React.useState([]);
-    const [errorMessage, setErrorMessage] = React.useState("");
-    const [foundMovies, setFoundMovies] = React.useState(
-        localFoundMovies !== null ? localFoundMovies : []
-    );
     const navigate = useNavigate()
-
-    const AllMovies = () => {
-        api.getAllMovies()
-            .then((movies) => {
-                setIsLoading(true);
-                setIsCards(movies);
-                localStorage.setItem('movies', JSON.stringify(movies));
-            })
-            .catch((err) => {
-                console.log(`${err}`);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            })
-    }
-
-    const getUserInfo = () => {
-        mainApi.getApiUserInfo()
-            .then((userData) => {
-                setIsLoading(true);
-                localStorage.setItem("localLoggedIn", "true");
-                setIsCurrentUser(userData);
-            })
-            .catch((err) => {
-                console.log(`${err}`);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            })
-    }
-
-    const getSavedMovies = () => {
-        mainApi.getAllMovies()
-            .then((movies) => {
-                setIsLoading(true);
-                setSavedMovies(movies);
-                localStorage.setItem('savedMovies', JSON.stringify(movies));
-            })
-            .catch((err) => {
-                console.log(`${err}`);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            })
-    }
 
     useEffect(() => {
         handleTokenCheck()
     }, [])
 
     useEffect(() => {
+        setIsLoading(true);
+        Promise.all([
+            // api.getAllMovies(),mainApi.getAllMovies()
+            withCache("movies", api.getAllMovies.bind(api)),
+            withCache("savedMovies", mainApi.getAllMovies.bind(mainApi)),
+        ])
+            .then(([movies, savedMovies]) => {
+                setMoviesStore({
+                    savedMovies: savedMovies.map(prepareSavedMovie),
+                    moviesItems: movies.map((movie) => prepareMovie(movie, savedMovies))
+                })
+            })
+            .catch((err) => {
+                console.log(`${err}`);
+            })
+            .finally(() => setIsLoading(false));
 
-        // AllMovies();
-        getUserInfo();
-        // getSavedMovies();
-    }, [])
-
-    useEffect(() => {
-        if (loggedIn === true) {
-            // navigate('/movies');
-            AllMovies();
-            getUserInfo();
-            getSavedMovies();
-        }
     }, [loggedIn])
 
-    const filterMoviesAll = (value) => {
-        return cards.filter(movie => {
-            return movie.nameRU.toLowerCase().includes(value.toLowerCase())
+    const prepareSavedMovie = (savedMovie) =>  Object.assign(savedMovie, { id: savedMovie._id});
+
+    const prepareMovie = (movie, savedMovies) => {
+        let result = savedMovies.filter(m => m.movieId === movie.id)
+        let savedMovieId = result.length > 0 ? result[0].id : null;
+        let saved = result.length > 0
+        return Object.assign(movie, {
+            savedId: savedMovieId,
+            movieId: movie.id,
+            saved: saved,
+            image: mainApi.prepareImage(movie.image),
         })
     }
 
-    const filterMoviesSaved = (value) => {
-        return savedMovies.filter(movie => {
-            return movie.nameRU.toLowerCase().includes(value.toLowerCase())
-        })
+    const filterMovies = (movies, value) => {
+        if (value) {
+            return movies.filter(movie => {
+                return movie.nameRU.toLowerCase().includes(value.toLowerCase())
+            })
+        }
+        return movies
     }
 
-    const filterShorts = (movies) => {
-        return movies.filter(movie => {
-            return movie.duration <= 40
-        })
+    const filterShorts = (movies, value) => {
+        if (value) {
+            return movies.filter(movie => {
+                return movie.duration <= 40
+            })
+        }
+        return movies
     }
 
     const sliceMovies = (movies, slice) => {
@@ -149,16 +96,13 @@ function App() {
 
     //Проверка токена
     function handleTokenCheck() {
+        setIsLoading(true);
         const jwt = localStorage.getItem("jwt");
-        const movies = localStorage.getItem('movies');
-        const savedMovies = localStorage.getItem('savedMovies');
         if (jwt) {
             mainApi.checkToken(jwt)
                 .then((res) => {
                     if (res) {
-                        setIsLoading(true);
                         setIsLoggedIn(true)
-                        setIsAuthorizedEmail(res.email)
                     }
                 })
                 .catch((err) => {
@@ -173,16 +117,16 @@ function App() {
 
     //Регистрация
     function handleSignUp(email, password, name) {
+        setIsLoading(true);
         mainApi.register(email, password, name)
             .then(
                 () => {
-                    setIsLoading(true);
-                    setIsRegistered(true);
+                    setIsSuccess(true);
                     navigate('/signin');
                 })
             .catch((err) => {
                 console.log(err);
-                setIsRegistered(false);
+                setIsSuccess(false);
             })
             .finally(() => {
                 setIsInfoTooltipPopupOpen(true);
@@ -192,17 +136,18 @@ function App() {
 
     //Функция входа
     function handleAuthorize(email, password) {
+        setIsLoading(true);
         mainApi.authorize(email, password)
             .then((data) => {
-                setIsLoading(true);
+                setIsSuccess(true);
                 localStorage.setItem('jwt', data.token);
                 handleTokenCheck();
                 setIsLoggedIn(true);
-                setIsAuthorizedEmail(email)
                 navigate('/movies');
                 console.log('ok')
             })
             .catch((err) => {
+                setIsSuccess(false);
                 if (err === Number(400)) {
                     alert('Не заполнено одно из полей')
                 } else if (err === Number(401)) {
@@ -224,13 +169,15 @@ function App() {
 
     //Изменить инфо пользователя
     function handleUpdateUser(data) {
+        setIsLoading(true);
         mainApi.patchUserInfo(data)
             .then(
                 (data) => {
-                    setIsLoading(true);
+                    setIsSuccess(true);
                     setIsCurrentUser(data);
                 })
             .catch((err) => {
+                setIsSuccess(false);
                 console.log(err);
             })
             .finally(() => {
@@ -239,31 +186,24 @@ function App() {
             })
     }
 
-    // useEffect(() => {
-    //   Promise.all([api.getAllMovies()])
-    //       .then(([allMovies]) => {
-    //         setIsCards(allMovies);
-    //       })
-    //       .catch((err) => {
-    //         console.log(`${err}`);
-    //       })
-    // }, [checkedShorts]);
-
-
-    // function addMovies() {
-    //     setSlice(slice + 4)
-    // }
-
-
     //Функция лайка карточки
     function handleMovieLike(movie) {
+        setIsLoading(true);
+
         mainApi.saveMovie(movie)
             .then((data) => {
-                setIsLoading(true);
-                setSavedMovies([...savedMovies, data])
-                localStorage.setItem('savedMovies', JSON.stringify(data));
+                setIsSuccess(true);
+                console.log(data)
+                let savedMovies = [...moviesStore.savedMovies, prepareSavedMovie(data.data)];
+                setMoviesStore({
+                    savedMovies: savedMovies,
+                    moviesItems:  moviesStore.moviesItems.map((movie) => prepareMovie(movie, savedMovies)),
+                })
+                console.log(moviesStore.savedMovies)
             })
             .catch((err) => {
+                setIsSuccess(false);
+                setIsInfoTooltipPopupOpen(true);
                 console.log(err);
             })
             .finally(() => {
@@ -271,10 +211,43 @@ function App() {
             })
     }
 
+    function deleteMovie(id) {
+        setIsLoading(true);
+        console.log(id)
+        mainApi
+            .deleteMovie(id)
+            .then(() => {
+                setIsSuccess(true);
+                const newMovies = moviesStore.savedMovies.filter(
+                    (savedMovie) => savedMovie.id !== id
+                );
+                setMoviesStore({
+                    savedMovies: newMovies,
+                    moviesItems: moviesStore.moviesItems.map((movie) => prepareMovie(movie, newMovies)),
+                })
+                console.log(moviesStore.savedMovies)
+            })
+            .catch((err) => {
+                setIsSuccess(false);
+                setIsInfoTooltipPopupOpen(true);
+                console.log(err);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
+
+    }
+
+    function closeAllPopups() {
+        setIsInfoTooltipPopupOpen(false);
+    }
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <div className="app">
+                <Preloader
+                    isLoading={isLoading}
+                />
                 <Header
                     loggedIn={loggedIn}
                 />
@@ -290,18 +263,22 @@ function App() {
                             element={Movies}
                             loggedIn={loggedIn}
                             isRendering={isRendering}
-                            filterMovies={filterMoviesAll}
+                            filterMovies={filterMovies}
                             filterShorts={filterShorts}
                             sliceMovies={sliceMovies}
                             onSaveMovie={handleMovieLike}
+                            onDeleteMovie={deleteMovie}
+                            cards={moviesStore.moviesItems}
                         />}/>
                     <Route path="/saved-movies" element={
                         <ProtectedRoute
                             element={SavedMovies}
                             isRendering={isRendering}
+                            onDeleteMovie={deleteMovie}
                             loggedIn={loggedIn}
-                            filterMovies={filterMoviesSaved}
+                            filterMovies={filterMovies}
                             filterShorts={filterShorts}
+                            cards={moviesStore.savedMovies}
                         />}/>
                     <Route path="/profile" element={
                         <ProtectedRoute
@@ -317,6 +294,11 @@ function App() {
                     <Route path="*" element={
                         <NotFound/>}/>
                 </Routes>
+
+                <InfoTooltip
+                    onClose={closeAllPopups}
+                    isOpen={isInfoTooltipPopupOpen}
+                    isSuccess={isSuccess}/>
             </div>
         </CurrentUserContext.Provider>
     )
