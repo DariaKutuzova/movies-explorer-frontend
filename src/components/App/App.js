@@ -28,14 +28,17 @@ function App() {
         savedMovies: [],
     });
 
-    const [isRendering, setIsRendering] = useState(true);
+    // const [isRendering, setIsRendering] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
-    const [loggedIn, setIsLoggedIn] = useState(false);
+    const [loggedIn, setIsLoggedIn] = useState(null);
 
     const navigate = useNavigate()
 
     useEffect(() => {
-        handleTokenCheck()
+        setTimeout(() => {
+            handleTokenCheck();
+        }, 100);
+        // handleTokenCheck()
     }, [])
 
     useEffect(() => {
@@ -44,8 +47,9 @@ function App() {
             // api.getAllMovies(),mainApi.getAllMovies()
             withCache("movies", api.getAllMovies.bind(api)),
             withCache("savedMovies", mainApi.getAllMovies.bind(mainApi)),
-        ])
-            .then(([movies, savedMovies]) => {
+            mainApi.getApiUserInfo()])
+            .then(([movies, savedMovies, userData]) => {
+                setIsCurrentUser(userData);
                 setMoviesStore({
                     savedMovies: savedMovies.map(prepareSavedMovie),
                     moviesItems: movies.map((movie) => prepareMovie(movie, savedMovies))
@@ -109,7 +113,7 @@ function App() {
                     console.log(`Не удалось получить токен: ${err}`)
                 })
                 .finally(() => {
-                    setIsRendering(false);
+                    // setIsRendering(false);
                     setIsLoading(false);
                 })
         }
@@ -164,7 +168,8 @@ function App() {
     function handleLogout() {
         localStorage.clear();
         setIsLoggedIn(false)
-        navigate('/signin')
+        navigate('/signin');
+        // setIsCurrentUser({name: '', email: ''});
     }
 
     //Изменить инфо пользователя
@@ -262,7 +267,7 @@ function App() {
                         <ProtectedRoute
                             element={Movies}
                             loggedIn={loggedIn}
-                            isRendering={isRendering}
+                            // isRendering={isRendering}
                             filterMovies={filterMovies}
                             filterShorts={filterShorts}
                             sliceMovies={sliceMovies}
@@ -273,7 +278,7 @@ function App() {
                     <Route path="/saved-movies" element={
                         <ProtectedRoute
                             element={SavedMovies}
-                            isRendering={isRendering}
+                            // isRendering={isRendering}
                             onDeleteMovie={deleteMovie}
                             loggedIn={loggedIn}
                             filterMovies={filterMovies}
@@ -283,7 +288,7 @@ function App() {
                     <Route path="/profile" element={
                         <ProtectedRoute
                             element={Profile}
-                            isRendering={isRendering}
+                            // isRendering={isRendering}
                             loggedIn={loggedIn}
                             onSingOut={handleLogout}
                             onUpdateUser={handleUpdateUser}

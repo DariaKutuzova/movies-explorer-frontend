@@ -16,6 +16,8 @@ function Profile({onSingOut, onUpdateUser}) {
     //Подписываемся на контекст
     const currentUser = useContext(CurrentUserContext);
 
+    console.log(currentUser)
+
     const navigate = useNavigate();
 
     useEffect(() => {

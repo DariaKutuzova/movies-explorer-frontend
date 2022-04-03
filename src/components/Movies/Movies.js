@@ -9,25 +9,17 @@ function Movies({addMovies, onSaveMovie, filterMovies, filterShorts, cards, onDe
     const [searchValue, setSearchValue] = useState("");
     const [isShortMovies, setIsShortMovies] = useState(false);
 
-    let finalMovies = searchValue ? (filterShorts(filterMovies(cards, searchValue), isShortMovies)) : [];
-
-    const setMovies = (value) => {
-        setSearchValue(value)
-    }
-    const filterShortMovies = (value) => {
-        setIsShortMovies(value)
-    }
-
     const [numberMoviesInDisplay, setNumberMoviesInDisplay] = useState(() => {
         const windowWidth = window.innerWidth;
-        if (windowWidth <= 1280) {
+        if (windowWidth >= 1280) {
+            return 16
+        } else if (windowWidth >= 768) {
             return 12
-        } else if (windowWidth <= 768) {
+        } else if (windowWidth >= 480) {
             return 8
-        } else if (windowWidth <= 480) {
-            return 5
-        } else return 16
+        } else return 5
     })
+    const [currentMoviesNumber, setCurrentMoviesNumber] = useState(numberMoviesInDisplay);
 
     const [numberMoviesAdd, setNumberMoviesAdd] = useState(() => {
         const windowWidth = window.innerWidth;
@@ -43,39 +35,38 @@ function Movies({addMovies, onSaveMovie, filterMovies, filterShorts, cards, onDe
     function onChangeScreenWidth() {
         const windowWidth = window.innerWidth;
         if (windowWidth > 1279) {
-            setNumberMoviesInDisplay(16);
+            setCurrentMoviesNumber(16);
             setNumberMoviesAdd(4);
         } else if (windowWidth >= 768) {
-            setNumberMoviesInDisplay(12);
+            setCurrentMoviesNumber(12);
             setNumberMoviesAdd(3);
         } else if (windowWidth >= 480) {
-            setNumberMoviesInDisplay(8);
+            setCurrentMoviesNumber(8);
             setNumberMoviesAdd(2);
         } else {
-            setNumberMoviesInDisplay(5);
+            setCurrentMoviesNumber(5);
             setNumberMoviesAdd(2);
         }
+    }
+
+    function setMovies(value) {
+        setSearchValue(value);
+    }
+    function filterShortMovies(value) {
+        setIsShortMovies(value);
+    }
+
+    function addMoviesVisible() {
+        setCurrentMoviesNumber(prevState => prevState + numberMoviesAdd);
     }
 
     useEffect(() => {
         window.addEventListener('resize', onChangeScreenWidth);
     }, []);
 
-    const moviesVisible = finalMovies.slice(0, numberMoviesInDisplay);
-    console.log(moviesVisible)
-    console.log(finalMovies)
 
-    const isFull = () => {
-        if (finalMovies.length === moviesVisible.length) {
-            return true
-        } else return false
-    }
-
-    console.log(isFull())
-
-    function addMoviesVisible() {
-        setNumberMoviesInDisplay(prevState => prevState + numberMoviesAdd);
-    }
+    const filteredMovies = searchValue ? (filterShorts(filterMovies(cards, searchValue), isShortMovies)) : [];
+    const moviesVisible = filteredMovies.slice(0, currentMoviesNumber);
 
     return (
         <div>
@@ -89,9 +80,9 @@ function Movies({addMovies, onSaveMovie, filterMovies, filterShorts, cards, onDe
                     onDeleteMovie={onDeleteMovie}
                     onSaveMovie={onSaveMovie}/>
                 <MoreMovies
-                    movies={finalMovies}
+                    movies={filteredMovies}
                     addMovies={addMoviesVisible}
-                    isFull={isFull()}/>
+                    isFull={currentMoviesNumber >= filteredMovies.length}/>
             </div>
             <Footer/>
         </div>
