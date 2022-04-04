@@ -38,13 +38,11 @@ function App() {
         setTimeout(() => {
             handleTokenCheck();
         }, 100);
-        // handleTokenCheck()
     }, [])
 
     useEffect(() => {
         setIsLoading(true);
         Promise.all([
-            // api.getAllMovies(),mainApi.getAllMovies()
             withCache("movies", api.getAllMovies.bind(api)),
             withCache("savedMovies", mainApi.getAllMovies.bind(mainApi)),
             mainApi.getApiUserInfo()])
@@ -61,6 +59,7 @@ function App() {
             .finally(() => setIsLoading(false));
 
     }, [loggedIn])
+
 
     const prepareSavedMovie = (savedMovie) =>  Object.assign(savedMovie, { id: savedMovie._id});
 
@@ -110,6 +109,7 @@ function App() {
                     }
                 })
                 .catch((err) => {
+                    setIsLoggedIn(false)
                     console.log(`Не удалось получить токен: ${err}`)
                 })
                 .finally(() => {
@@ -169,7 +169,6 @@ function App() {
         localStorage.clear();
         setIsLoggedIn(false)
         navigate('/signin');
-        // setIsCurrentUser({name: '', email: ''});
     }
 
     //Изменить инфо пользователя

@@ -1,12 +1,10 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+import {Navigate} from "react-router-dom";
 
-function ProtectedRoute({ element: Component, ...props }) {
+function ProtectedRoute({element: Component, ...props}) {
     return (
-  props.loggedIn === null ? null :
-
-        // props.isRendering ||
-        props.loggedIn ? <Component {...props} /> : <Navigate to="/" />
+        props.loggedIn === null ? null :
+            props.loggedIn ? <Component {...props} /> : <Navigate to="/"/>
     );
 }
 
