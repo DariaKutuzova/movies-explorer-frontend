@@ -10,12 +10,13 @@ import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
-import ProtectedRoute from "../ProtectedRoute";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import {Routes, Route, useNavigate} from "react-router-dom";
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import Preloader from "../Preloader/Preloader";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import withCache from "../../utils/OfflineRepository";
+import ReversedProtectedRoute from "../ReversedProtectedRoute/ReversedProtectedRoute";
 
 function App() {
 
@@ -60,7 +61,7 @@ function App() {
     }, [loggedIn])
 
 
-    const prepareSavedMovie = (savedMovie) =>  Object.assign(savedMovie, { id: savedMovie._id});
+    const prepareSavedMovie = (savedMovie) => Object.assign(savedMovie, {id: savedMovie._id});
 
     const prepareMovie = (movie, savedMovies) => {
         let result = savedMovies.filter(m => m.movieId === movie.id)
@@ -115,8 +116,7 @@ function App() {
                     // setIsRendering(false);
                     setIsLoading(false);
                 })
-        }
-        else{
+        } else {
             setIsLoggedIn(false)
         }
     }
@@ -203,7 +203,7 @@ function App() {
                 let savedMovies = [...moviesStore.savedMovies, prepareSavedMovie(data.data)];
                 setMoviesStore({
                     savedMovies: savedMovies,
-                    moviesItems:  moviesStore.moviesItems.map((movie) => prepareMovie(movie, savedMovies)),
+                    moviesItems: moviesStore.moviesItems.map((movie) => prepareMovie(movie, savedMovies)),
                 })
                 console.log(moviesStore.savedMovies)
             })
@@ -219,7 +219,6 @@ function App() {
 
     function deleteMovie(id) {
         setIsLoading(true);
-        console.log(id)
         mainApi
             .deleteMovie(id)
             .then(() => {
@@ -231,7 +230,6 @@ function App() {
                     savedMovies: newMovies,
                     moviesItems: moviesStore.moviesItems.map((movie) => prepareMovie(movie, newMovies)),
                 })
-                console.log(moviesStore.savedMovies)
             })
             .catch((err) => {
                 setIsSuccess(false);
@@ -259,16 +257,21 @@ function App() {
                 />
                 <Routes>
                     <Route path="/signup" element={
-                        <Register onAddUser={handleSignUp}
+                        <ReversedProtectedRoute
+                            element={Register}
+                            loggedIn={loggedIn}
+                            onAddUser={handleSignUp}
                         />}/>
                     <Route path="/signin" element={
-                        <Login onEntryUser={handleAuthorize}
+                        <ReversedProtectedRoute
+                            element={Login}
+                            loggedIn={loggedIn}
+                            onEntryUser={handleAuthorize}
                         />}/>
                     <Route path="/movies" element={
                         <ProtectedRoute
                             element={Movies}
                             loggedIn={loggedIn}
-                            // isRendering={isRendering}
                             filterMovies={filterMovies}
                             filterShorts={filterShorts}
                             sliceMovies={sliceMovies}
@@ -279,7 +282,6 @@ function App() {
                     <Route path="/saved-movies" element={
                         <ProtectedRoute
                             element={SavedMovies}
-                            // isRendering={isRendering}
                             onDeleteMovie={deleteMovie}
                             loggedIn={loggedIn}
                             filterMovies={filterMovies}
@@ -289,14 +291,13 @@ function App() {
                     <Route path="/profile" element={
                         <ProtectedRoute
                             element={Profile}
-                            // isRendering={isRendering}
                             loggedIn={loggedIn}
                             onSingOut={handleLogout}
                             onUpdateUser={handleUpdateUser}
                         />}/>
                     <Route exact path="/" element={
-                        <Main
-                        />}/>
+                        <Main/>
+                    }/>
                     <Route path="*" element={
                         <NotFound/>}/>
                 </Routes>
