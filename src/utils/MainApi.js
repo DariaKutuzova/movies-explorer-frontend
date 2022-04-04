@@ -10,7 +10,7 @@ class MainApi{
     _checkResponse(res) {
         if (res.ok){
             return res.json();}
-        return Promise.reject('Произошла ошибка')
+        return Promise.reject(res)
     }
 
     _getHeaders() {

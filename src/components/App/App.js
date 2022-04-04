@@ -132,6 +132,9 @@ function App() {
                 })
             .catch((err) => {
                 console.log(err);
+                if (err.status === Number(409)) {
+                    alert('Такой email уже существует')
+                }
                 setIsSuccess(false);
             })
             .finally(() => {
@@ -154,9 +157,9 @@ function App() {
             })
             .catch((err) => {
                 setIsSuccess(false);
-                if (err === Number(400)) {
+                if (err.status === Number(400)) {
                     alert('Не заполнено одно из полей')
-                } else if (err === Number(401)) {
+                } else if (err.status === Number(401)) {
                     alert('Неправильно введен логин или пароль')
                 }
             })
