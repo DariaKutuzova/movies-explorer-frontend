@@ -127,8 +127,8 @@ function App() {
         mainApi.register(email, password, name)
             .then(
                 () => {
-                    setIsSuccess(true);
-                    navigate('/signin');
+                    console.log(email, password)
+                    handleAuthorize(email, password)
                 })
             .catch((err) => {
                 console.log(err);
