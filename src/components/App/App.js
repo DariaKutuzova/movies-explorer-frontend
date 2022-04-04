@@ -28,7 +28,6 @@ function App() {
         savedMovies: [],
     });
 
-    // const [isRendering, setIsRendering] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
     const [loggedIn, setIsLoggedIn] = useState(null);
 
@@ -116,6 +115,9 @@ function App() {
                     // setIsRendering(false);
                     setIsLoading(false);
                 })
+        }
+        else{
+            setIsLoggedIn(false)
         }
     }
 
