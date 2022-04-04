@@ -62,6 +62,9 @@ function Movies({addMovies, onSaveMovie, filterMovies, filterShorts, cards, onDe
 
     useEffect(() => {
         window.addEventListener('resize', onChangeScreenWidth);
+        return () => {
+            window.removeEventListener('resize', onChangeScreenWidth)
+        }
     }, []);
 
 
