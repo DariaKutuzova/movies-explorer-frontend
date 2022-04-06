@@ -46,6 +46,15 @@ function Register({isOpen, onClose, onAddUser}) {
         }
     }
 
+    function validateField(input) {
+        if (input.name === 'name')
+            return input.validity.valid
+        else if (input.name === 'email')
+            return validator.isEmail(input.value) && input.validity.valid
+        else if (input.name === 'password')
+            return input.validity.valid
+    }
+
     //Проверка на валидность
     function checkInputValid(e) {
         setInputValues({
@@ -53,9 +62,8 @@ function Register({isOpen, onClose, onAddUser}) {
             [e.target.name]: e.target.value
         });
         setInputValid({
-            name: e.target.validity.valid,
-            email: validator.isEmail(e.target.value) && e.target.validity.valid,
-            password: e.target.validity.valid
+            ...inputValid,
+            [e.target.name]: validateField(e.target)
         });
         setInputError({
             ...inputError,

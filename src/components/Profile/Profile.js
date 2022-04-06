@@ -12,25 +12,27 @@ function Profile({onSingOut, onUpdateUser}) {
 
     const [inputValues, setInputValues] = useState({name: '', email: ''});
     const [inputValid, setInputValid] = useState({name: false, email: false});
-    const [inputError, setInputError] = useState({name: '', email: ''});
-    const [inputDirty, setInputDirty] = useState({name: false, email: false});
-    const [isChanged, setIsChanged] = useState({name: false, email: false});
 
     //Подписываемся на контекст
     const currentUser = useContext(CurrentUserContext);
 
-    const isNotChange = currentUser.email === inputValues.email || currentUser.name === inputValues.name;
+    const isNotChange = currentUser.email === inputValues.email && currentUser.name === inputValues.name;
 
     const navigate = useNavigate();
 
     useEffect(() => {
         if (currentUser) {
             setInputValues({name: currentUser.name, email: currentUser.email});
-            setInputValid({name: false, email: false});
-            setInputError({name: '', email: ''});
-            setInputDirty({name: false, email: false});
+            setInputValid({name: true, email: true});
         }
     }, [currentUser]);
+
+    function validateField(input) {
+        if (input.name === 'name')
+            return input.validity.valid
+        else if (input.name === 'email')
+            return validator.isEmail(input.value) && input.validity.valid
+    }
 
     function handleSignOut() {
         onSingOut();
@@ -43,17 +45,9 @@ function Profile({onSingOut, onUpdateUser}) {
             [e.target.name]: e.target.value
         });
         setInputValid({
-            name: e.target.validity.valid,
-            email: validator.isEmail(e.target.value) && e.target.validity.valid,
+            ...inputValid,
+            [e.target.name]: validateField(e.target)
         });
-        // setIsChanged({
-        //     name: e.target.value !== currentUser.name,
-        //     email: e.target.value !== currentUser.email
-        // })
-        // console.log(e.target.value)
-        // console.log(currentUser.email)
-        // console.log(isChanged)
-
     }
 
     function handleSubmit(e) {
@@ -96,7 +90,7 @@ function Profile({onSingOut, onUpdateUser}) {
                                    required/>
                         </div>
                         <button className="profile__change-button" type='submit'
-                                disabled={(!inputValid.email || !inputValid.name) && isNotChange}
+                                disabled={(!inputValid.email || !inputValid.name) || isNotChange}
                         >Редактировать
                         </button>
                     </form>

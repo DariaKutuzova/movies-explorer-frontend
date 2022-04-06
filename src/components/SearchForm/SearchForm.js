@@ -1,12 +1,17 @@
 import './SearchForm.css';
 import '../App/App.css'
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
 
 function SearchForm({onCheckboxShorts, onSearch}) {
 
     const [inputValue, setInputValue] = useState(localStorage.getItem("searchWord") || '');
+
+    useEffect(() => {
+        if (inputValue)
+            onSearch(inputValue)
+    }, [])
 
     function handleSubmit(e) {
         // Запрещаем браузеру переходить по адресу формы

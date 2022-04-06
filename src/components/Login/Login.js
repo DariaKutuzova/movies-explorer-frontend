@@ -43,6 +43,14 @@ function Login({isOpen, onClose, onEntryUser}) {
         }
     }
 
+    function validateField(input) {
+        if (input.name === 'password')
+            return input.validity.valid
+        else if (input.name === 'email')
+            return validator.isEmail(input.value) && input.validity.valid
+    }
+
+
     //Проверка на валидность
     function checkInputValid(e) {
         setInputValues({
@@ -50,8 +58,8 @@ function Login({isOpen, onClose, onEntryUser}) {
             [e.target.name]: e.target.value
         });
         setInputValid({
-            email: validator.isEmail(e.target.value) && e.target.validity.valid,
-            password: e.target.validity.valid
+            ...inputValid,
+            [e.target.name]: validateField(e.target)
         });
         setInputError({
             ...inputError,
