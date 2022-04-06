@@ -2,15 +2,17 @@ import './FilterCheckbox.css';
 import '../App/App.css'
 import {useState} from "react";
 
+
 function FilterCheckbox({onCheckboxShorts}) {
 
-    const [checkedShorts, setCheckedShorts] = useState(false);
+    const [checkedShorts, setCheckedShorts] = useState(localStorage.getItem("checkbox")==="true" || false);
 
     function changeCheckboxShorts(e) {
         let newState = e.target.checked;
 
         setCheckedShorts(newState);
-        onCheckboxShorts(newState)
+        onCheckboxShorts(newState);
+        localStorage.setItem('checkbox', newState);
     }
 
     return (

@@ -1,8 +1,10 @@
 import '../App/App.css';
 import './Profile.css';
 import {useLocation, Link, useNavigate} from "react-router-dom";
-import Header from "../Header/Header";
+
+const validator = require('validator');
 import {useContext, useState, useEffect} from "react";
+
 
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 
@@ -12,11 +14,12 @@ function Profile({onSingOut, onUpdateUser}) {
     const [inputValid, setInputValid] = useState({name: false, email: false});
     const [inputError, setInputError] = useState({name: '', email: ''});
     const [inputDirty, setInputDirty] = useState({name: false, email: false});
+    const [isChanged, setIsChanged] = useState({name: false, email: false});
 
     //Подписываемся на контекст
     const currentUser = useContext(CurrentUserContext);
 
-    console.log(currentUser)
+    const isNotChange = currentUser.email === inputValues.email || currentUser.name === inputValues.name;
 
     const navigate = useNavigate();
 
@@ -31,7 +34,7 @@ function Profile({onSingOut, onUpdateUser}) {
 
     function handleSignOut() {
         onSingOut();
-        navigate('/signin');
+        navigate('/');
     }
 
     function handleValuesChange(e) {
@@ -39,6 +42,18 @@ function Profile({onSingOut, onUpdateUser}) {
             ...inputValues,
             [e.target.name]: e.target.value
         });
+        setInputValid({
+            name: e.target.validity.valid,
+            email: validator.isEmail(e.target.value) && e.target.validity.valid,
+        });
+        // setIsChanged({
+        //     name: e.target.value !== currentUser.name,
+        //     email: e.target.value !== currentUser.email
+        // })
+        // console.log(e.target.value)
+        // console.log(currentUser.email)
+        // console.log(isChanged)
+
     }
 
     function handleSubmit(e) {
@@ -80,7 +95,10 @@ function Profile({onSingOut, onUpdateUser}) {
                                    name='email'
                                    required/>
                         </div>
-                        <button className="profile__change-button" type='submit'>Редактировать</button>
+                        <button className="profile__change-button" type='submit'
+                                disabled={(!inputValid.email || !inputValid.name) && isNotChange}
+                        >Редактировать
+                        </button>
                     </form>
                     <Link className="profile__signout" to="/signin" onClick={handleSignOut}>Выйти из аккаунта</Link>
                 </div>

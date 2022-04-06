@@ -4,7 +4,7 @@ import MoreMovies from '../MoreMovies/MoreMovies';
 import Footer from "../Footer/Footer";
 import {useState, useEffect} from "react";
 
-function Movies({addMovies, onSaveMovie, filterMovies, filterShorts, cards, onDeleteMovie}) {
+function Movies({onSaveMovie, filterMovies, filterShorts, cards, onDeleteMovie}) {
 
     const [searchValue, setSearchValue] = useState("");
     const [isShortMovies, setIsShortMovies] = useState(false);

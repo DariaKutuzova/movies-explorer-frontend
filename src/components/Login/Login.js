@@ -3,6 +3,7 @@ import {useState} from "react";
 import './Login.css'
 import '../SignPopup/SignPopup.css';
 import SignPopup from "../SignPopup/SignPopup";
+import validator from "validator";
 
 
 function Login({isOpen, onClose, onEntryUser}) {
@@ -49,8 +50,8 @@ function Login({isOpen, onClose, onEntryUser}) {
             [e.target.name]: e.target.value
         });
         setInputValid({
-            ...inputValid,
-            [e.target.name]: e.target.validity.valid
+            email: validator.isEmail(e.target.value) && e.target.validity.valid,
+            password: e.target.validity.valid
         });
         setInputError({
             ...inputError,
@@ -67,7 +68,7 @@ function Login({isOpen, onClose, onEntryUser}) {
             buttonText={'Войти'}
             onSubmit={handleSubmit}
             linkToEntry={linkToEntry}
-            // isDisabled={!email || !password}
+            isDisabled={!inputValid.email || !inputValid.password}
         >
             <label htmlFor="email-input" className="sign__label">E-mail</label>
             <input type="email" placeholder="Email"

@@ -131,9 +131,10 @@ function App() {
                     handleAuthorize(email, password)
                 })
             .catch((err) => {
-                console.log(err);
                 if (err.status === Number(409)) {
                     alert('Такой email уже существует')
+                } else if (err.status === Number(400)) {
+                    alert('Не заполнено одно из полей')
                 }
                 setIsSuccess(false);
             })
@@ -173,7 +174,7 @@ function App() {
     function handleLogout() {
         localStorage.clear();
         setIsLoggedIn(false)
-        navigate('/signin');
+        navigate('/');
     }
 
     //Изменить инфо пользователя

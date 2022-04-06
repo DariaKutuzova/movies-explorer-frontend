@@ -3,6 +3,7 @@ import {useState} from "react";
 import './Register.css'
 import '../SignPopup/SignPopup.css';
 import SignPopup from "../SignPopup/SignPopup";
+const validator = require('validator');
 
 
 function Register({isOpen, onClose, onAddUser}) {
@@ -52,8 +53,9 @@ function Register({isOpen, onClose, onAddUser}) {
             [e.target.name]: e.target.value
         });
         setInputValid({
-            ...inputValid,
-            [e.target.name]: e.target.validity.valid
+            name: e.target.validity.valid,
+            email: validator.isEmail(e.target.value) && e.target.validity.valid,
+            password: e.target.validity.valid
         });
         setInputError({
             ...inputError,
@@ -70,7 +72,7 @@ function Register({isOpen, onClose, onAddUser}) {
             buttonText={'Зарегистрироваться'}
             onSubmit={handleSubmit}
             linkToEntry={linkToEntry}
-            // isDisabled={!email || !password}
+            isDisabled={!inputValid.email || !inputValid.password || !inputValid.name}
         >
             <label htmlFor="name-input" className="sign__label">Имя</label>
             <input type="text" placeholder="Имя"
