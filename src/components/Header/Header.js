@@ -43,42 +43,44 @@ function Header({loggedIn, onSingOut, autoEmail}) {
     return (
         <div style={{margin: 0}}>
             {address.pathname === '/signup' ||
-                address.pathname === '/signin' ? null :
+            address.pathname === '/signin' ? null :
 
                 (!loggedIn ?
-                (<header className={`app__item header app__container ${address.pathname === '/' ? 'header_landing' : ''}`}>
-                <div className="header__basic">
-                <img src={logo} alt="Лого шапки" className="header__logo" onClick={handleLanding}/>
-                <nav className="header__entry">
-                <a className="header__text" onClick={handleSignUp}>Регистрация</a>
-                <button className="header__button" type="button" onClick={handleSignIn}>Войти</button>
-                </nav>
-                </div>
-                </header>)
-                :
-                (<header className={`app__item header app__container ${address.pathname === '/' ? 'header_landing' : ''}`}>
-                <div className="header__basic">
-                <nav className="header__navigation">
-                <img src={logo} alt="Лого шапки" className="header__logo" onClick={handleLanding}/>
-                <Link className="header__link" to="/movies" onClick={handleMovies}>Фильмы</Link>
-                <Link className="header__link" to="/saved-movies" onClick={handleSavedMovies}>Сохраненные
-                фильмы</Link>
-                </nav>
-                <div className="header__account" onClick={handleAccount}>
-                <a className="header__account-text">Аккаунт</a>
-                <button className="header__account-button" type="button"/>
-                </div>
-                <button className="header__navi" type="button" onClick={handleNavi}>
+                    (<header
+                        className={`app__item header app__container ${address.pathname === '/' ? 'header_landing' : ''}`}>
+                        <div className="header__basic">
+                            <img src={logo} alt="Лого шапки" className="header__logo" onClick={handleLanding}/>
+                            <nav className="header__entry">
+                                <a className="header__text" onClick={handleSignUp}>Регистрация</a>
+                                <button className="header__button" type="button" onClick={handleSignIn}>Войти</button>
+                            </nav>
+                        </div>
+                    </header>)
+                    :
+                    (<header
+                        className={`app__item header app__container ${address.pathname === '/' ? 'header_landing' : ''}`}>
+                        <div className="header__basic">
+                            <nav className="header__navigation">
+                                <img src={logo} alt="Лого шапки" className="header__logo" onClick={handleLanding}/>
+                                <Link className="header__link" to="/movies" onClick={handleMovies}>Фильмы</Link>
+                                <Link className="header__link" to="/saved-movies" onClick={handleSavedMovies}>Сохраненные
+                                    фильмы</Link>
+                            </nav>
+                            <div className="header__account" onClick={handleAccount}>
+                                <a className="header__account-text">Аккаунт</a>
+                                <button className="header__account-button" type="button"/>
+                            </div>
+                            <button className="header__navi" type="button" onClick={handleNavi}>
                 <span
-                className={`header__navi-line
+                    className={`header__navi-line
                                 ${isActive ? 'header__navi-line_active' : ''}`}>
                 </span>
-                </button>
-                </div>
-            {isActive ? <Navigation
-                onClose={handleNavi}
-                />: ""}
-                </header>))
+                            </button>
+                        </div>
+                        {isActive ? <Navigation
+                            onClose={handleNavi}
+                        /> : ""}
+                    </header>))
             }
         </div>
     );

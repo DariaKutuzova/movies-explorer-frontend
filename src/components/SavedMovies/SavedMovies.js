@@ -23,7 +23,9 @@ function SavedMovies({filterMovies, filterShorts, onDeleteMovie, cards}) {
             <div className="movies app__item">
                 <SearchForm
                     onCheckboxShorts={filterShortMovies}
-                    onSearch={setMovies}/>
+                    onSearch={setMovies}
+                    storageEnabled={false}
+                />
                 <MoviesCardList
                     movies={finalMovies}
                     onDeleteMovie={onDeleteMovie}/>

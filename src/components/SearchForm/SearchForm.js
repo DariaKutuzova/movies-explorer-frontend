@@ -4,9 +4,10 @@ import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import {useEffect, useState} from 'react';
 
 
-function SearchForm({onCheckboxShorts, onSearch}) {
+function SearchForm({onCheckboxShorts, onSearch, storageEnabled}) {
 
-    const [inputValue, setInputValue] = useState(localStorage.getItem("searchWord") || '');
+    const defaultSearchWord = storageEnabled ? localStorage.getItem("searchWord") || '' : ''
+    const [inputValue, setInputValue] = useState(defaultSearchWord);
 
     useEffect(() => {
         if (inputValue)
@@ -19,8 +20,8 @@ function SearchForm({onCheckboxShorts, onSearch}) {
 
         // Передаём значения управляемых компонентов во внешний обработчик
         onSearch(inputValue);
-        localStorage.setItem('searchWord', inputValue);
-
+        if (storageEnabled)
+            localStorage.setItem('searchWord', inputValue);
     }
 
     function checkInputValue(e) {
@@ -48,6 +49,7 @@ function SearchForm({onCheckboxShorts, onSearch}) {
             <button className="search-form__button" type="submit"/>
             </div>
             <FilterCheckbox
+                storageEnabled={storageEnabled}
                 onCheckboxShorts={onCheckboxShorts}/>
         </form>
         </div>

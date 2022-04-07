@@ -76,7 +76,9 @@ function Movies({onSaveMovie, filterMovies, filterShorts, cards, onDeleteMovie})
             <div className="movies app__item">
                 <SearchForm
                     onCheckboxShorts={filterShortMovies}
-                    onSearch={setMovies}/>
+                    onSearch={setMovies}
+                    storageEnabled={true}
+                />
                 <MoviesCardList
                     movies={moviesVisible}
                     startState={!!searchValue === false}

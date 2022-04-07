@@ -89,12 +89,14 @@ function Profile({onSingOut, onUpdateUser}) {
                                    name='email'
                                    required/>
                         </div>
-                        <button className="profile__change-button" type='submit'
+                        <button type='submit'
+                                className={`profile__change-button ${(!inputValid.email || !inputValid.name) || isNotChange? 
+                                    'profile__change-button_disabled' : ''}`}
                                 disabled={(!inputValid.email || !inputValid.name) || isNotChange}
                         >Редактировать
                         </button>
                     </form>
-                    <Link className="profile__signout" to="/signin" onClick={handleSignOut}>Выйти из аккаунта</Link>
+                    <Link className="profile__signout" to="/" onClick={handleSignOut}>Выйти из аккаунта</Link>
                 </div>
             </div>
         </div>

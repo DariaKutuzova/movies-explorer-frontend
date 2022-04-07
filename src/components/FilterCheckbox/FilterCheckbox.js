@@ -3,16 +3,19 @@ import '../App/App.css'
 import {useState} from "react";
 
 
-function FilterCheckbox({onCheckboxShorts}) {
+function FilterCheckbox({onCheckboxShorts, storageEnabled}) {
 
-    const [checkedShorts, setCheckedShorts] = useState(localStorage.getItem("checkbox")==="true" || false);
+    const defaultChecked = storageEnabled ? localStorage.getItem("checkbox")==="true" || false : false;
+    const [checkedShorts, setCheckedShorts] = useState(defaultChecked);
 
     function changeCheckboxShorts(e) {
         let newState = e.target.checked;
 
         setCheckedShorts(newState);
         onCheckboxShorts(newState);
-        localStorage.setItem('checkbox', newState);
+
+        if (storageEnabled)
+            localStorage.setItem('checkbox', newState);
     }
 
     return (

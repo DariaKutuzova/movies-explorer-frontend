@@ -126,6 +126,10 @@
     text-decoration: underline;
 }
 
+.profile__change-button_disabled {
+    opacity: 0.2;
+}
+
 .profile__signout {
     margin: 0 auto;
     color: rgba(238, 52, 101, 1);
