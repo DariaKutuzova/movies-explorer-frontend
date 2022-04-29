@@ -20,7 +20,6 @@ function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onCa
 
     return (
         <div>
-            <Header/>
             <main className="content">
                 <section className="main app__item">
                     <Promo/>

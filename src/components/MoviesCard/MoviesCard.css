@@ -20,7 +20,21 @@
 
 .movies-card__image {
     border-radius: 10px 10px 0 0;
+    height: 151px;
+    object-fit: cover;
+    cursor: pointer;
+}
 
+@media screen and (max-width: 900px) {
+    .movies-card__image {
+        height: 190px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .movies-card__image {
+        height: 168px;
+    }
 }
 
 .movies-card__caption {
